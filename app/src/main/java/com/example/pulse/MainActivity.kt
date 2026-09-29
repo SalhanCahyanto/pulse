@@ -77,6 +77,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// MainActivity.kt
 @Composable
 fun PulseAppNavigation() {
     val navController = rememberNavController()
@@ -87,6 +88,9 @@ fun PulseAppNavigation() {
         }
         composable("insight") {
             InsightScreen(navController = navController)
+        }
+        composable("profile") {
+            ProfileScreen(navController = navController)
         }
     }
 }

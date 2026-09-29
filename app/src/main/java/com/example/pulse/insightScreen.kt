@@ -77,6 +77,12 @@ fun InsightScreen(navController: NavController) {
                     popUpTo("home") { inclusive = false }
                     launchSingleTop = true
                 }
+            },
+            onNavigateProfile = {
+                navController.navigate("profile") {
+                    popUpTo("home") { inclusive = false }
+                    launchSingleTop = true
+                }
             }
         )
     }
@@ -303,8 +309,31 @@ fun InsightBioRhythmCard() {
     }
 }
 
+//sementara
+//@Composable
+//fun InsightFloatingBottomNav(modifier: Modifier = Modifier, onNavigateHome: () -> Unit) {
+//    Row(
+//        modifier = modifier
+//            .fillMaxWidth()
+//            .height(80.dp)
+//            .background(LimeGreen, shape = CircleShape)
+//            .border(1.dp, DarkCard, shape = CircleShape)
+//            .padding(horizontal = 24.dp),
+//        horizontalArrangement = Arrangement.SpaceBetween,
+//        verticalAlignment = Alignment.CenterVertically
+//    ) {
+//        InsightNavItem(iconRes = R.drawable.ic_book_open, label = "Insight", isSelected = true, onClick = {})
+//        InsightNavItem(iconRes = R.drawable.ic_house, label = "Home", isSelected = false, onClick = onNavigateHome)
+//        InsightNavItem(iconRes = R.drawable.ic_user, label = "Profile", isSelected = false, onClick = {})
+//    }
+//}
+// insightScreen.kt
 @Composable
-fun InsightFloatingBottomNav(modifier: Modifier = Modifier, onNavigateHome: () -> Unit) {
+fun InsightFloatingBottomNav(
+    modifier: Modifier = Modifier,
+    onNavigateHome: () -> Unit,
+    onNavigateProfile: () -> Unit
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -317,7 +346,7 @@ fun InsightFloatingBottomNav(modifier: Modifier = Modifier, onNavigateHome: () -
     ) {
         InsightNavItem(iconRes = R.drawable.ic_book_open, label = "Insight", isSelected = true, onClick = {})
         InsightNavItem(iconRes = R.drawable.ic_house, label = "Home", isSelected = false, onClick = onNavigateHome)
-        InsightNavItem(iconRes = R.drawable.ic_user, label = "Profile", isSelected = false, onClick = {})
+        InsightNavItem(iconRes = R.drawable.ic_user, label = "Profile", isSelected = false, onClick = onNavigateProfile)
     }
 }
 
