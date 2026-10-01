@@ -27,6 +27,14 @@ fun ProfileScreen(navController: NavController) {
             .fillMaxSize()
             .background(LightBackground)
     ) {
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .offset(x = 80.dp, y = 120.dp)
+                .size(250.dp)
+                .background(Color(0xFFD3D8DD).copy(alpha = 0.7f), shape = CircleShape)
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -370,9 +378,8 @@ fun ProfileBottomNav(
             .fillMaxWidth()
             .height(80.dp)
             .background(LimeGreen, shape = CircleShape)
-            .border(1.dp, DarkCard, shape = CircleShape)
-            .padding(horizontal = 24.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .border(1.dp, DarkCard, shape = CircleShape),
+        horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProfileNavItem(
