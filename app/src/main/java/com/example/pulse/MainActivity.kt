@@ -82,7 +82,16 @@ class MainActivity : ComponentActivity() {
 fun PulseAppNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "welcome") {
+        composable("welcome") {
+            FitnessWelcomeScreen(navController = navController)
+        }
+        composable("sign_in") {
+            FitnessSignInScreen(navController = navController)
+        }
+        composable("personal_data") {
+            PersonalDataScreen(navController = navController)
+        }
         composable("home") {
             FitnessDashboardScreen(navController = navController)
         }
@@ -100,6 +109,15 @@ fun PulseAppNavigation() {
         }
         composable("calories_detail") {
             CaloriesDetailScreen(navController = navController)
+        }
+        composable("edit_health") {
+            EditHealthDetailsScreen(navController = navController)
+        }
+        composable("edit_move_goal") {
+            EditMoveGoalsScreen(navController = navController)
+        }
+        composable("edit_profile") {
+            EditProfileScreen(navController = navController)
         }
     }
 }
