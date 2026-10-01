@@ -68,7 +68,7 @@ fun FitnessDashboardScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(32.dp))
             CircularProgressSection()
             Spacer(modifier = Modifier.height(24.dp))
-            MetricsSection()
+            MetricsSection(navController = navController)
             Spacer(modifier = Modifier.height(24.dp))
             CommunitySection()
             Spacer(modifier = Modifier.height(32.dp))
@@ -138,10 +138,15 @@ fun CircularProgressSection() {
 }
 
 @Composable
-fun MetricsSection() {
+fun MetricsSection(navController: NavController) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        //stepdistance card
         Card(
-            modifier = Modifier.weight(1f).height(140.dp),
+            modifier = Modifier
+                .weight(1f)
+                .height(140.dp)
+                // ADD THE CLICKABLE HERE:
+                .clickable { navController.navigate("distance_detail") },
             colors = CardDefaults.cardColors(containerColor = LimeGreen),
             shape = RoundedCornerShape(20.dp)
         ) {
@@ -158,6 +163,8 @@ fun MetricsSection() {
                 }
             }
         }
+
+        //caloricard
         Card(
             modifier = Modifier.weight(1f).height(140.dp),
             colors = CardDefaults.cardColors(containerColor = LimeGreen),
