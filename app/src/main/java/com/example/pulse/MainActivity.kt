@@ -92,5 +92,8 @@ fun PulseAppNavigation() {
         composable("profile") {
             ProfileScreen(navController = navController)
         }
+        composable("distance_detail") {
+            DistanceDetailScreen(navController = navController)
+        }
     }
 }
