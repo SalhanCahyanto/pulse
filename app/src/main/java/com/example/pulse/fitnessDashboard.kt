@@ -25,6 +25,7 @@ import com.example.pulse.ui.theme.*
 
 @Composable
 fun FitnessDashboardScreen(navController: NavController) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             bottomBar = {
                 CustomBottomNavigation(
@@ -42,24 +43,29 @@ fun FitnessDashboardScreen(navController: NavController) {
                     }
                 )
             },
-        containerColor = LightBackground
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 24.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            HeaderSection()
-            Spacer(modifier = Modifier.height(32.dp))
-            CircularProgressSection(navController = navController)
-            Spacer(modifier = Modifier.height(24.dp))
-            MetricsSection(navController = navController)
-            Spacer(modifier = Modifier.height(24.dp))
-            CommunitySection(navController = navController)
-            Spacer(modifier = Modifier.height(32.dp))
+            containerColor = LightBackground
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(horizontal = 24.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Spacer(modifier = Modifier.height(32.dp))
+                HeaderSection()
+                Spacer(modifier = Modifier.height(32.dp))
+                CircularProgressSection(navController = navController)
+                Spacer(modifier = Modifier.height(24.dp))
+                MetricsSection(navController = navController)
+                Spacer(modifier = Modifier.height(24.dp))
+                CommunitySection(navController = navController)
+                Spacer(modifier = Modifier.height(32.dp))
+            }
+        }
+        
+        DraggableStreakButton(streak = 3) {
+            navController.navigate("streak_milestone")
         }
     }
 }
