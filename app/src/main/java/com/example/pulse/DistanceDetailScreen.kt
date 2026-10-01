@@ -217,7 +217,7 @@ fun DistanceDetailScreen(navController: NavController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(CardWhite, RoundedCornerShape(20.dp))
+                        .background(Color.White, RoundedCornerShape(20.dp))
                         .padding(vertical = 16.dp, horizontal = 12.dp),
                     horizontalArrangement = Arrangement.SpaceAround,
                     verticalAlignment = Alignment.CenterVertically

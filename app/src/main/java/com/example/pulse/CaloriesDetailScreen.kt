@@ -1,8 +1,5 @@
 package com.example.pulse
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,98 +18,85 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.pulse.ui.theme.PulseTheme
-
-// Palet Warna Sesuai Desain Calories Details
-val CaloriesBg = Color(0xFF1E222B)
-val NeonLime = Color(0xFFDDFB54)
-val SheetSurface = Color(0xFFF3F4F6)
-val CardWhite = Color(0xFFFFFFFF)
-val TextDark = Color(0xFF111827)
-val TextMuted = Color(0xFF6B7280)
-
-class CaloriesDetailActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PulseTheme {
-                CaloriesDetailScreen(onBackClick = { finish() })
-            }
-        }
-    }
-}
+import androidx.navigation.NavController
+import com.example.pulse.ui.theme.*
 
 @Composable
-fun CaloriesDetailScreen(onBackClick: () -> Unit = {}) {
+fun CaloriesDetailScreen(navController: NavController) {
     // State untuk melacak tab yang aktif: "Day", "Week", "Month", "Year"
     var selectedTab by remember { mutableStateOf("Week") }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(CaloriesBg)
+            .background(DarkBackground)
     ) {
+        // Top Section (Pushes bottom sheet down)
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .padding(top = 16.dp)
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = 24.dp, vertical = 48.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header: Tombol Back & Judul
+            // Header
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(
-                    onClick = onBackClick,
+                Box(
                     modifier = Modifier
-                        .size(40.dp)
-                        .background(Color.White.copy(alpha = 0.15f), CircleShape)
+                        .size(48.dp)
+                        .background(DarkCard, shape = CircleShape)
+                        .clip(CircleShape)
+                        .clickable { navController.popBackStack() },
+                    contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_chevron_left),
                         contentDescription = "Back",
-                        tint = Color.White
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
                     )
                 }
-                Spacer(modifier = Modifier.width(16.dp))
+
+                Spacer(modifier = Modifier.weight(1f))
+
                 Text(
                     text = "Calories Details",
-                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = Color.White,
+                    modifier = Modifier.padding(end = 48.dp)
                 )
+
+                Spacer(modifier = Modifier.weight(1f))
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
-            // Progress Lingkar Grafik & Angka Kalori
+            // Hero Graphic (Original Nested Boxes)
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Simulasi Ring Progress / Icon Tengah
                 Box(
                     modifier = Modifier
                         .size(140.dp)
-                        .background(NeonLime.copy(alpha = 0.1f), CircleShape),
+                        .background(LimeGreen.copy(alpha = 0.1f), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Box(
                         modifier = Modifier
                             .size(110.dp)
-                            .background(NeonLime.copy(alpha = 0.2f), CircleShape),
+                            .background(LimeGreen.copy(alpha = 0.2f), CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_fire),
                             contentDescription = null,
-                            tint = NeonLime,
+                            tint = LimeGreen,
                             modifier = Modifier.size(48.dp)
                         )
                     }
@@ -123,15 +107,15 @@ fun CaloriesDetailScreen(onBackClick: () -> Unit = {}) {
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(
                         text = "450",
-                        fontSize = 36.sp,
+                        style = MaterialTheme.typography.displayMedium,
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.White
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = "/ 600 kcal",
-                        fontSize = 16.sp,
-                        color = TextMuted,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = TextGray,
                         modifier = Modifier.padding(bottom = 6.dp)
                     )
                 }
@@ -139,106 +123,101 @@ fun CaloriesDetailScreen(onBackClick: () -> Unit = {}) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "Calories Burned Today",
-                    fontSize = 13.sp,
-                    color = TextMuted
+                    style = MaterialTheme.typography.labelLarge,
+                    color = TextGray
                 )
             }
+        }
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Bottom Sheet Putih Konten Detail Grafik
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-                color = SheetSurface
+        // Bottom Section (Light Sheet)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = LightBackground,
+                    shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+                )
+                .padding(24.dp)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Column(
+                // Tab Selector
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp)
-                        .navigationBarsPadding()
+                        .background(Color.White, RoundedCornerShape(24.dp))
+                        .padding(4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // Tab Selector (Day, Week, Month, Year)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White, RoundedCornerShape(24.dp))
-                            .padding(4.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        val tabs = listOf("Day", "Week", "Month", "Year")
-                        tabs.forEach { tab ->
-                            val isSelected = selectedTab == tab
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .clip(RoundedCornerShape(20.dp))
-                                    .background(if (isSelected) NeonLime else Color.Transparent)
-                                    .clickable { selectedTab = tab }
-                                    .padding(vertical = 10.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = tab,
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = if (isSelected) TextDark else TextMuted
-                                )
-                            }
+                    val tabs = listOf("Day", "Week", "Month", "Year")
+                    tabs.forEach { tab ->
+                        val isSelected = selectedTab == tab
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(if (isSelected) LimeGreen else Color.Transparent)
+                                .clickable { selectedTab = tab }
+                                .padding(vertical = 10.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = tab,
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = if (isSelected) DarkBackground else TextGray
+                            )
                         }
                     }
+                }
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
-                    // Dinamis Konten Grafik Berdasarkan Tab yang Dipilih
-                    when (selectedTab) {
-                        "Day" -> DayOverviewContent()
-                        "Week" -> WeeklyOverviewContent()
-                        "Month" -> MonthlyOverviewContent()
-                        "Year" -> YearlyOverviewContent()
-                    }
+                // Dinamis Konten Grafik Berdasarkan Tab yang Dipilih
+                when (selectedTab) {
+                    "Day" -> DayOverviewContent()
+                    "Week" -> WeeklyOverviewContent()
+                    "Month" -> MonthlyOverviewContent()
+                    "Year" -> YearlyOverviewContent()
+                }
 
-                    Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(32.dp))
+                HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
+                Spacer(modifier = Modifier.height(24.dp))
 
-                    // Bagian Bawah: Burning Time, Active Kcal, Resting Kcal
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(CardWhite, RoundedCornerShape(20.dp))
-                            .padding(vertical = 16.dp, horizontal = 12.dp),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        BottomMetricItem(
-                            iconRes = R.drawable.ic_clock,
-                            label = "BURNING TIME",
-                            value = "04:20"
-                        )
-                        VerticalDivider(
-                            modifier = Modifier
-                                .height(32.dp)
-                                .width(1.dp),
-                            color = Color.LightGray
-                        )
-                        BottomMetricItem(
-                            iconRes = R.drawable.ic_chart_line,
-                            label = "ACTIVE KCAL",
-                            value = "580 kcal"
-                        )
-                        VerticalDivider(
-                            modifier = Modifier
-                                .height(32.dp)
-                                .width(1.dp),
-                            color = Color.LightGray
-                        )
-                        BottomMetricItem(
-                            iconRes = R.drawable.ic_fire,
-                            label = "RESTING KCAL",
-                            value = "290 kcal"
-                        )
-                    }
+                // Footer Row
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White, RoundedCornerShape(20.dp))
+                        .padding(vertical = 16.dp, horizontal = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    BottomMetricItem(
+                        iconRes = R.drawable.ic_clock,
+                        label = "BURNING TIME",
+                        value = "04:20"
+                    )
+                    VerticalDivider(
+                        modifier = Modifier.height(32.dp),
+                        color = Color.LightGray
+                    )
+                    BottomMetricItem(
+                        iconRes = R.drawable.ic_chart_line,
+                        label = "ACTIVE KCAL",
+                        value = "580 kcal"
+                    )
+                    VerticalDivider(
+                        modifier = Modifier.height(32.dp),
+                        color = Color.LightGray
+                    )
+                    BottomMetricItem(
+                        iconRes = R.drawable.ic_fire,
+                        label = "RESTING KCAL",
+                        value = "290 kcal"
+                    )
                 }
             }
         }
@@ -269,14 +248,14 @@ fun ScrollableBarChartContent(
         ) {
             Text(
                 text = title,
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = TextDark
+                color = DarkBackground
             )
             Text(
                 text = subtitle,
-                fontSize = 12.sp,
-                color = TextMuted,
+                style = MaterialTheme.typography.bodySmall,
+                color = TextGray,
                 fontWeight = FontWeight.Medium
             )
         }
@@ -313,15 +292,15 @@ fun ScrollableBarChartContent(
                                     .width(12.dp)
                                     .height(item.value.dp)
                                     .clip(RoundedCornerShape(6.dp))
-                                    .background(if (isSelected) NeonLime else NeonLime.copy(alpha = 0.4f))
+                                    .background(if (isSelected) LimeGreen else LimeGreen.copy(alpha = 0.4f))
                             )
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = item.label,
-                        fontSize = 11.sp,
-                        color = if (isSelected) TextDark else TextMuted,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = if (isSelected) DarkBackground else TextGray,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                         maxLines = 1,
                         textAlign = TextAlign.Center
@@ -337,18 +316,15 @@ fun DayOverviewContent() {
     var selectedHour by remember { mutableStateOf("18:00") }
     val hoursList = listOf("00:00", "02:00", "04:00", "06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00")
 
-    // Timeline: 60 2-hour slots (past slots have values, future slots have 0 value = no bar)
     val dayItems = remember {
-        val currentHourIndex = 33 // 18:00
+        val currentHourIndex = 33 
         (0 until 60).map { idx ->
             val hourLabel = hoursList[idx % hoursList.size]
             val value = if (idx <= currentHourIndex) {
                 when (idx % 6) {
                     0 -> 20; 1 -> 15; 2 -> 35; 3 -> 85; 4 -> 60; else -> 100
                 }
-            } else {
-                0 // Future hours
-            }
+            } else 0
             ChartItemData(hourLabel, value)
         }
     }
@@ -368,18 +344,15 @@ fun WeeklyOverviewContent() {
     var selectedDay by remember { mutableStateOf("Wed") }
     val daysList = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
-    // Timeline: 70 days (10 weeks) (past days have values, future days have 0 value = no bar)
     val weekItems = remember {
-        val currentDayIndex = 30 // Wed of current week
+        val currentDayIndex = 30 
         (0 until 70).map { idx ->
             val dayLabel = daysList[idx % daysList.size]
             val value = if (idx <= currentDayIndex) {
                 when (idx % 7) {
                     0 -> 70; 1 -> 50; 2 -> 90; 3 -> 45; 4 -> 100; 5 -> 120; else -> 65
                 }
-            } else {
-                0 // Future days
-            }
+            } else 0
             ChartItemData(dayLabel, value)
         }
     }
@@ -398,18 +371,15 @@ fun WeeklyOverviewContent() {
 fun MonthlyOverviewContent() {
     var selectedDay by remember { mutableStateOf("15") }
 
-    // Timeline: 90 days (3 months) (past days have values, future days have 0 value = no bar)
     val monthItems = remember {
-        val currentDayIndex = 44 // Day 15 of current month
+        val currentDayIndex = 44 
         (0 until 90).map { idx ->
             val dayNum = (idx % 30) + 1
             val value = if (idx <= currentDayIndex) {
                 when (dayNum % 7) {
                     1 -> 65; 2 -> 80; 3 -> 110; 4 -> 50; 5 -> 95; 6 -> 120; else -> 75
                 }
-            } else {
-                0 // Future days
-            }
+            } else 0
             ChartItemData("$dayNum", value)
         }
     }
@@ -429,18 +399,15 @@ fun YearlyOverviewContent() {
     var selectedMonth by remember { mutableStateOf("Jul") }
     val monthsList = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
-    // Timeline: 36 months (3 years) (past months have values, future months have 0 value = no bar)
     val yearItems = remember {
-        val currentMonthIndex = 18 // Jul of current year
+        val currentMonthIndex = 18 
         (0 until 36).map { idx ->
             val monthLabel = monthsList[idx % monthsList.size]
             val value = if (idx <= currentMonthIndex) {
                 when (idx % 12) {
                     0 -> 60; 1 -> 75; 2 -> 90; 3 -> 85; 4 -> 110; 5 -> 105; 6 -> 120; 7 -> 115; 8 -> 95; else -> 70
                 }
-            } else {
-                0 // Future months
-            }
+            } else 0
             ChartItemData(monthLabel, value)
         }
     }
@@ -466,31 +433,23 @@ fun BottomMetricItem(
             Icon(
                 painter = painterResource(id = iconRes),
                 contentDescription = null,
-                tint = TextMuted,
+                tint = TextGray,
                 modifier = Modifier.size(12.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = label,
-                fontSize = 9.sp,
-                color = TextMuted,
+                style = MaterialTheme.typography.labelSmall,
+                color = TextGray,
                 fontWeight = FontWeight.Bold
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = value,
-            fontSize = 14.sp,
-            color = TextDark,
+            style = MaterialTheme.typography.titleMedium,
+            color = DarkBackground,
             fontWeight = FontWeight.Bold
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewCaloriesDetail() {
-    PulseTheme {
-        CaloriesDetailScreen()
     }
 }

@@ -66,7 +66,7 @@ fun FitnessDashboardScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(32.dp))
             HeaderSection()
             Spacer(modifier = Modifier.height(32.dp))
-            CircularProgressSection()
+            CircularProgressSection(navController = navController)
             Spacer(modifier = Modifier.height(24.dp))
             MetricsSection(navController = navController)
             Spacer(modifier = Modifier.height(24.dp))
@@ -97,12 +97,17 @@ fun HeaderSection() {
 }
 
 @Composable
-fun CircularProgressSection() {
+fun CircularProgressSection(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(contentAlignment = Alignment.Center, modifier = Modifier.size(220.dp)) {
+        Box(
+            contentAlignment = Alignment.Center, 
+            modifier = Modifier
+                .size(220.dp)
+                .clickable { navController.navigate("step_count_detail") }
+        ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 drawArc(
                     color = ProgressTrack,
@@ -166,7 +171,10 @@ fun MetricsSection(navController: NavController) {
 
         //caloricard
         Card(
-            modifier = Modifier.weight(1f).height(140.dp),
+            modifier = Modifier
+                .weight(1f)
+                .height(140.dp)
+                .clickable { navController.navigate("calories_detail") },
             colors = CardDefaults.cardColors(containerColor = LimeGreen),
             shape = RoundedCornerShape(20.dp)
         ) {

@@ -95,5 +95,11 @@ fun PulseAppNavigation() {
         composable("distance_detail") {
             DistanceDetailScreen(navController = navController)
         }
+        composable("step_count_detail") {
+            StepCountDetailScreen(navController = navController)
+        }
+        composable("calories_detail") {
+            CaloriesDetailScreen(navController = navController)
+        }
     }
 }
