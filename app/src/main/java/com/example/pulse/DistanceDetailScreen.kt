@@ -27,12 +27,13 @@ import com.example.pulse.ui.theme.*
 fun DistanceDetailScreen(navController: NavController) {
     var selectedTab by remember { mutableStateOf("Week") }
 
+    // Container utama layar dengan background gelap
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(DarkBackground) // Uses the DarkBackground for the top portion
     ) {
-        // Top Section (Dark Theme)
+        // UI Bagian Atas (Mendorong bottom sheet ke bawah)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -40,17 +41,18 @@ fun DistanceDetailScreen(navController: NavController) {
                 .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Top Bar
+            // UI Bagian Header (Judul dan Tombol Kembali)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Tombol Back di pojok kiri atas
                 Box(
                     modifier = Modifier
                         .size(48.dp)
                         .background(DarkCard, shape = CircleShape)
                         .clip(CircleShape)
-                        .clickable { navController.popBackStack() },
+                        .clickable { navController.popBackStack() }, // Fungsi navigasi untuk kembali ke halaman sebelumnya
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -63,6 +65,7 @@ fun DistanceDetailScreen(navController: NavController) {
                 
                 Spacer(modifier = Modifier.weight(1f))
                 
+                // Judul Halaman
                 Text(
                     text = "Distance Detail",
                     style = MaterialTheme.typography.titleLarge,
@@ -76,7 +79,7 @@ fun DistanceDetailScreen(navController: NavController) {
             
             Spacer(modifier = Modifier.weight(1f))
             
-            // Hero Graphic
+            // UI Bagian Grafik Lingkaran Utama (Hero Graphic)
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -126,7 +129,7 @@ fun DistanceDetailScreen(navController: NavController) {
             
             Spacer(modifier = Modifier.weight(1f))
             
-            // Values
+            // UI Teks Nilai (Value) di bawah grafik
             Text(
                 text = "4.8 km",
                 style = MaterialTheme.typography.headlineLarge,
@@ -141,7 +144,7 @@ fun DistanceDetailScreen(navController: NavController) {
             )
         }
         
-        // Bottom Section (Light Theme Sheet)
+        // Bottom Sheet (Lembar Bawah) untuk menampilkan detail statistik
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -152,7 +155,7 @@ fun DistanceDetailScreen(navController: NavController) {
                 .padding(24.dp)
         ) {
             Column {
-                // Tab Selector
+                // UI Tab Selector untuk memilih periode (Day, Week, Month, Year)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -187,7 +190,7 @@ fun DistanceDetailScreen(navController: NavController) {
                 
                 Spacer(modifier = Modifier.height(20.dp))
                 
-                // Dynamic Title Row
+                // UI Judul Dinamis berdasarkan Tab yang dipilih
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -208,14 +211,14 @@ fun DistanceDetailScreen(navController: NavController) {
                 
                 Spacer(modifier = Modifier.height(20.dp))
                 
-                // Dynamic Scrollable Bar Chart
+                // Menampilkan grafik bar dinamis (Scrollable)
                 DynamicChartSection(selectedTab = selectedTab)
                 
                 Spacer(modifier = Modifier.height(24.dp))
                 HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
                 Spacer(modifier = Modifier.height(20.dp))
                 
-                // Stats Footer
+                // UI Bagian Footer (Bawah) untuk statistik rata-rata
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -225,7 +228,7 @@ fun DistanceDetailScreen(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     StatItem(
-                        iconRes = R.drawable.ic_chart_line, // Using chart line as average
+                        iconRes = R.drawable.ic_chart_line,
                         label = "AVERAGE",
                         value = "3 Km"
                     )
@@ -287,9 +290,10 @@ fun StatItem(iconRes: Int, label: String, value: String) {
 
 data class ChartData(val label: String, val value: Float, val isHighlighted: Boolean = false)
 
+// Komponen pembantu untuk menampilkan daftar grafik bar
 @Composable
 fun DynamicChartSection(selectedTab: String, modifier: Modifier = Modifier) {
-    // Generate deterministic dummy data based on the selected tab
+    // Logic untuk membuat data grafik palsu berdasarkan tab yang dipilih
     val chartData = remember(selectedTab) {
         when (selectedTab) {
             "Day" -> (0..23).map {
@@ -317,6 +321,7 @@ fun DynamicChartSection(selectedTab: String, modifier: Modifier = Modifier) {
         }
     }
 
+    // UI Daftar bar yang bisa di-scroll horizontal
     LazyRow(
         modifier = modifier
             .fillMaxWidth()

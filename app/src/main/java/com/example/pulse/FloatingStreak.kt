@@ -42,6 +42,7 @@ import kotlin.math.roundToInt
 import com.example.pulse.ui.theme.DarkCard
 import com.example.pulse.ui.theme.LimeGreen
 
+// Komponen utama untuk tombol streak mengambang (floating) yang bisa digeser
 @Composable
 fun DraggableStreakButton(
     streak: Int = 3,
@@ -55,6 +56,7 @@ fun DraggableStreakButton(
     val buttonWidth = 86.dp
     val buttonHeight = 54.dp
 
+    // Container pembungkus utama untuk mengetahui batas ukuran layar
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -105,20 +107,23 @@ fun DraggableStreakButton(
                             bottomReservedSpace
                     ).coerceAtLeast(minY)
 
+        // State untuk menyimpan posisi horizontal (X) dari tombol
         var offsetX by remember {
             mutableFloatStateOf(0f)
         }
 
+        // State untuk menyimpan posisi vertikal (Y) dari tombol
         var offsetY by remember {
             mutableFloatStateOf(0f)
         }
 
+        // State untuk melacak apakah posisi awal sudah diatur
         var initialized by remember {
             mutableStateOf(false)
         }
 
         // Posisi awal:
-        // kanan layar, agak ke tengah
+        // kanan layar, agak ke tengah. Diatur saat pertama kali komponen dirender.
         LaunchedEffect(
             screenWidthPx,
             screenHeightPx
@@ -158,6 +163,7 @@ fun DraggableStreakButton(
             }
         }
 
+        // UI Kotak/Tombol utama yang bisa di-drag
         Box(
             modifier = Modifier
                 .offset {
@@ -183,7 +189,7 @@ fun DraggableStreakButton(
                     shape = RoundedCornerShape(50)
                 )
 
-                // DRAG
+                // Logika deteksi gestur pergerakan (drag) oleh pengguna
                 .pointerInput(
                     screenWidthPx,
                     screenHeightPx
@@ -216,6 +222,7 @@ fun DraggableStreakButton(
 
                             // ==============================
                             // SNAP KE SISI TERDEKAT
+                            // Fungsi agar tombol otomatis menempel ke sisi kiri atau kanan layar saat dilepas
                             // ==============================
 
                             val middle =
@@ -252,7 +259,7 @@ fun DraggableStreakButton(
                     )
                 }
 
-                // CLICK
+                // Aksi saat tombol diklik (akan memicu navigasi ke halaman streak)
                 .clickable {
                     onClick()
                 },
@@ -260,6 +267,7 @@ fun DraggableStreakButton(
             contentAlignment = Alignment.Center
         ) {
 
+            // UI Bagian Konten Tombol (Ikon Api dan Angka Streak)
             Row(
                 verticalAlignment =
                     Alignment.CenterVertically,

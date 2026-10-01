@@ -25,8 +25,10 @@ import com.example.pulse.ui.theme.*
 
 @Composable
 fun EditMoveGoalsScreen(navController: NavController) {
+    // State lokal untuk melacak nilai target kalori yang akan diubah
     var moveGoal by remember { mutableIntStateOf(450) }
 
+    // Container utama layar
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,6 +38,7 @@ fun EditMoveGoalsScreen(navController: NavController) {
             .padding(top = 24.dp, bottom = 48.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // UI Bagian Header (Judul Halaman)
         Text(
             text = "Move Goals",
             style = MaterialTheme.typography.titleLarge,
@@ -45,6 +48,7 @@ fun EditMoveGoalsScreen(navController: NavController) {
         
         Spacer(modifier = Modifier.height(32.dp))
         
+        // Teks Petunjuk Besar
         Text(
             text = "What is your daily target?",
             style = MaterialTheme.typography.headlineLarge,
@@ -65,7 +69,7 @@ fun EditMoveGoalsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Main Interactive Card
+        // Card Interaktif Utama untuk mengatur Move Goal
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -76,17 +80,19 @@ fun EditMoveGoalsScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Counter Row
+                // UI Baris Counter (Tombol Minus, Angka, Tombol Plus)
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
+                    // Tombol Kurang (Minus)
                     Box(
                         modifier = Modifier
                             .size(48.dp)
                             .clip(CircleShape)
                             .background(DarkCard)
+                            // Logika: Kurangi 50 kalori, batas minimal 50
                             .clickable { if (moveGoal > 50) moveGoal -= 50 },
                         contentAlignment = Alignment.Center
                     ) {
@@ -101,11 +107,13 @@ fun EditMoveGoalsScreen(navController: NavController) {
                         modifier = Modifier.padding(horizontal = 32.dp)
                     )
 
+                    // Tombol Tambah (Plus)
                     Box(
                         modifier = Modifier
                             .size(48.dp)
                             .clip(CircleShape)
                             .background(DarkCard)
+                            // Logika: Tambah 50 kalori
                             .clickable { moveGoal += 50 },
                         contentAlignment = Alignment.Center
                     ) {
@@ -124,7 +132,7 @@ fun EditMoveGoalsScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Tick Marks
+                // UI Garis Penanda (Tick Marks) bergaya penggaris (hanya visual)
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.Bottom,
@@ -143,16 +151,18 @@ fun EditMoveGoalsScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Preset Buttons
+                // UI Baris Tombol Preset Cepat (Quick Actions)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
+                    // Tombol Preset "Active baseline"
                     Box(
                         modifier = Modifier
                             .weight(1f)
                             .clip(RoundedCornerShape(50))
                             .border(1.dp, LimeGreen, RoundedCornerShape(50))
+                            // Logika: Set move goal langsung ke 500
                             .clickable { moveGoal = 500 }
                             .padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center
@@ -165,11 +175,13 @@ fun EditMoveGoalsScreen(navController: NavController) {
                         )
                     }
 
+                    // Tombol Preset "Moderate"
                     Box(
                         modifier = Modifier
                             .weight(1f)
                             .clip(RoundedCornerShape(50))
                             .background(DarkCard)
+                            // Logika: Set move goal langsung ke 1000
                             .clickable { moveGoal = 1000 }
                             .padding(vertical = 12.dp),
                         contentAlignment = Alignment.Center
@@ -187,7 +199,7 @@ fun EditMoveGoalsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Info Card
+        // Info Card (Pesan Motivasi/Informasi Tambahan)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -231,7 +243,7 @@ fun EditMoveGoalsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // Footer
+        // UI Bagian Footer (Informasi Target Sebelumnya)
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -246,12 +258,13 @@ fun EditMoveGoalsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Save Button
+        // UI Tombol Simpan (Save Button)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(50))
                 .background(LimeGreen)
+                // Fungsi navigasi: Kembali ke halaman profil
                 .clickable { navController.popBackStack() }
                 .padding(vertical = 16.dp),
             contentAlignment = Alignment.Center

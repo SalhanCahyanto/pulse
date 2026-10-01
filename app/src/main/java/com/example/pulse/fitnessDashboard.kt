@@ -23,9 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pulse.ui.theme.*
 
+// Halaman Utama Dashboard Kebugaran
 @Composable
 fun FitnessDashboardScreen(navController: NavController) {
+    // Container utama yang memungkinkan tumpukan elemen (overlay)
     Box(modifier = Modifier.fillMaxSize()) {
+        // Scaffold memberikan struktur dasar layar termasuk Bottom Navigation
         Scaffold(
             bottomBar = {
                 CustomBottomNavigation(
@@ -45,6 +48,7 @@ fun FitnessDashboardScreen(navController: NavController) {
             },
             containerColor = LightBackground
         ) { paddingValues ->
+            // Konten utama dashboard yang bisa di-scroll
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -64,12 +68,15 @@ fun FitnessDashboardScreen(navController: NavController) {
             }
         }
         
+        // Komponen tombol streak melayang (floating) yang bisa digeser
         DraggableStreakButton(streak = 3) {
+            // Fungsi navigasi untuk pindah ke layar milestone streak saat tombol diklik
             navController.navigate("streak_milestone")
         }
     }
 }
 
+// UI Bagian Header (Menampilkan tanggal, sapaan, dan ikon tema)
 @Composable
 fun HeaderSection() {
     Row(
@@ -90,6 +97,7 @@ fun HeaderSection() {
     }
 }
 
+// UI Bagian Progress Lingkaran (Langkah Harian)
 @Composable
 fun CircularProgressSection(navController: NavController) {
     Column(
@@ -100,9 +108,11 @@ fun CircularProgressSection(navController: NavController) {
             contentAlignment = Alignment.Center, 
             modifier = Modifier
                 .size(220.dp)
+                // Berpindah ke halaman detail langkah (step_count_detail) saat lingkaran diklik
                 .clickable { navController.navigate("step_count_detail") }
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
+                // Menggambar lintasan latar belakang (abu-abu)
                 drawArc(
                     color = ProgressTrack,
                     startAngle = 0f,
@@ -112,6 +122,7 @@ fun CircularProgressSection(navController: NavController) {
                 )
             }
             Canvas(modifier = Modifier.fillMaxSize()) {
+                // Menggambar lintasan progres langkah saat ini (hijau)
                 drawArc(
                     color = LimeGreen,
                     startAngle = -90f,
@@ -136,15 +147,16 @@ fun CircularProgressSection(navController: NavController) {
     }
 }
 
+// UI Bagian Metrik (Jarak dan Kalori)
 @Composable
 fun MetricsSection(navController: NavController) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        //stepdistance card
+        // Card untuk menampilkan Jarak Tempuh (Distance)
         Card(
             modifier = Modifier
                 .weight(1f)
                 .height(140.dp)
-                // ADD THE CLICKABLE HERE:
+                // Berpindah ke halaman detail jarak (distance_detail) saat diklik
                 .clickable { navController.navigate("distance_detail") },
             colors = CardDefaults.cardColors(containerColor = LimeGreen),
             shape = RoundedCornerShape(20.dp)
@@ -163,11 +175,12 @@ fun MetricsSection(navController: NavController) {
             }
         }
 
-        //caloricard
+        // Card untuk menampilkan Kalori Terbakar (Calories)
         Card(
             modifier = Modifier
                 .weight(1f)
                 .height(140.dp)
+                // Berpindah ke halaman detail kalori (calories_detail) saat diklik
                 .clickable { navController.navigate("calories_detail") },
             colors = CardDefaults.cardColors(containerColor = LimeGreen),
             shape = RoundedCornerShape(20.dp)
@@ -188,6 +201,7 @@ fun MetricsSection(navController: NavController) {
     }
 }
 
+// UI Bagian Komunitas (Pembaruan Terbaru dari Teman)
 @Composable
 fun CommunitySection(navController: NavController) {
     Text(text = "Community", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = DarkCard)
@@ -195,6 +209,7 @@ fun CommunitySection(navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            // Berpindah ke halaman daftar komunitas utama (community) saat card diklik
             .clickable { navController.navigate("community") },
         colors = CardDefaults.cardColors(containerColor = LimeGreen),
         shape = RoundedCornerShape(20.dp)
@@ -264,6 +279,7 @@ fun CommunitySection(navController: NavController) {
     }
 }
 
+// UI Bagian Navigasi Bawah (Bottom Navigation)
 @Composable
 fun CustomBottomNavigation(
     onNavigateInsight: () -> Unit,
@@ -283,6 +299,7 @@ fun CustomBottomNavigation(
             iconRes = R.drawable.ic_book_open,
             label = "Insight",
             isSelected = false,
+            // Fungsi navigasi ke halaman Insight
             onClick = onNavigateInsight
         )
         DashboardNavItem(
@@ -295,16 +312,19 @@ fun CustomBottomNavigation(
             iconRes = R.drawable.ic_user,
             label = "Profile",
             isSelected = false,
+            // Fungsi navigasi ke halaman Profile
             onClick = onNavigateProfile
         )
     }
 }
 
+// Komponen pembantu untuk membuat satu tombol/item di navigasi bawah
 @Composable
 fun DashboardNavItem(iconRes: Int, label: String, isSelected: Boolean, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
+        // Aksi yang dijalankan saat ikon navigasi diklik
         modifier = Modifier.clickable { onClick() }
     ) {
         val backgroundColor = if (isSelected) Color.White else Color.Transparent

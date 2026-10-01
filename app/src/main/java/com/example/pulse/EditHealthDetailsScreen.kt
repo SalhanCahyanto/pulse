@@ -25,14 +25,17 @@ import java.util.Calendar
 
 @Composable
 fun EditHealthDetailsScreen(navController: NavController) {
+    // State untuk menyimpan data inputan form
     var birthDate by remember { mutableStateOf("15 / 08 / 1995") }
     var selectedSex by remember { mutableStateOf("Female") }
     var height by remember { mutableStateOf("172") }
     var weight by remember { mutableStateOf("65") }
 
+    // Mendapatkan context untuk menampilkan DatePickerDialog
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
     
+    // Inisialisasi DatePickerDialog dengan aksi saat tanggal dipilih
     val datePickerDialog = DatePickerDialog(
         context,
         { _, selectedYear, selectedMonth, selectedDay ->
@@ -45,6 +48,7 @@ fun EditHealthDetailsScreen(navController: NavController) {
         calendar.get(Calendar.DAY_OF_MONTH)
     )
 
+    // Container utama layar
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,7 +57,7 @@ fun EditHealthDetailsScreen(navController: NavController) {
             .padding(horizontal = 24.dp)
             .padding(top = 24.dp, bottom = 48.dp)
     ) {
-        // Header
+        // UI Bagian Header (Judul Layar)
         Text(
             text = "Health Details",
             style = MaterialTheme.typography.titleLarge,
@@ -64,7 +68,7 @@ fun EditHealthDetailsScreen(navController: NavController) {
         
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Info Card
+        // Info Card (Pemberitahuan/Info Pengaturan Akurat)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -104,7 +108,7 @@ fun EditHealthDetailsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Birth Date
+        // Form Input Tanggal Lahir (Menampilkan DatePicker saat diklik)
         Text(
             text = "BIRTH DATE",
             style = MaterialTheme.typography.labelMedium,
@@ -117,6 +121,7 @@ fun EditHealthDetailsScreen(navController: NavController) {
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(12.dp))
                 .background(DarkCard)
+                // Menampilkan dialog kalender saat baris ini diklik
                 .clickable { datePickerDialog.show() }
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -141,9 +146,9 @@ fun EditHealthDetailsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Biological Sex
+        // Form Input Jenis Kelamin (Toggles)
         Text(
-            text = "BIOLOGICAL SEX",
+            text = "GENDER",
             style = MaterialTheme.typography.labelMedium,
             color = TextGray,
             fontWeight = FontWeight.Bold
@@ -156,10 +161,11 @@ fun EditHealthDetailsScreen(navController: NavController) {
                 .padding(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Status cek apakah Male atau Female sedang dipilih
             val isMale = selectedSex == "Male"
             val isFemale = selectedSex == "Female"
             
-            // Male Toggle
+            // Tombol Pilihan Pria (Male)
             Row(
                 modifier = Modifier
                     .weight(1f)
@@ -185,7 +191,7 @@ fun EditHealthDetailsScreen(navController: NavController) {
                 )
             }
             
-            // Female Toggle
+            // Tombol Pilihan Wanita (Female)
             Row(
                 modifier = Modifier
                     .weight(1f)
@@ -214,12 +220,12 @@ fun EditHealthDetailsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Height and Weight
+        // UI Form Input Tinggi & Berat Badan (Side-by-side / Sejajar)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Height
+            // Kotak Input Tinggi Badan
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "HEIGHT",
@@ -256,7 +262,7 @@ fun EditHealthDetailsScreen(navController: NavController) {
                 }
             }
 
-            // Weight
+            // Kotak Input Berat Badan
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "WEIGHT",
@@ -296,7 +302,7 @@ fun EditHealthDetailsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // Footer Section
+        // UI Bagian Footer (Informasi Keamanan Data)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -318,12 +324,13 @@ fun EditHealthDetailsScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Save Button
+        // UI Tombol Simpan (Save Button)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(50))
                 .background(LimeGreen)
+                // Fungsi navigasi untuk kembali ke halaman profile saat diklik
                 .clickable { navController.popBackStack() }
                 .padding(vertical = 16.dp),
             contentAlignment = Alignment.Center

@@ -27,12 +27,13 @@ fun CaloriesDetailScreen(navController: NavController) {
     // State untuk melacak tab yang aktif: "Day", "Week", "Month", "Year"
     var selectedTab by remember { mutableStateOf("Week") }
 
+    // Container utama layar dengan warna background gelap
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(DarkBackground)
     ) {
-        // Top Section (Pushes bottom sheet down)
+        // UI Bagian Atas (Mendorong bottom sheet ke bawah)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -40,17 +41,18 @@ fun CaloriesDetailScreen(navController: NavController) {
                 .padding(horizontal = 24.dp, vertical = 48.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header
+            // UI Bagian Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Tombol Back di pojok kiri atas untuk kembali ke halaman sebelumnya
                 Box(
                     modifier = Modifier
                         .size(48.dp)
                         .background(DarkCard, shape = CircleShape)
                         .clip(CircleShape)
-                        .clickable { navController.popBackStack() },
+                        .clickable { navController.popBackStack() }, // Fungsi navigasi kembali
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -63,6 +65,7 @@ fun CaloriesDetailScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.weight(1f))
 
+                // Judul Halaman
                 Text(
                     text = "Calories Details",
                     style = MaterialTheme.typography.titleLarge,
@@ -76,7 +79,7 @@ fun CaloriesDetailScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.weight(0.5f))
 
-            // Hero Graphic (Original Nested Boxes)
+            // UI Bagian Grafik Lingkaran Utama (Hero Graphic)
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -131,7 +134,7 @@ fun CaloriesDetailScreen(navController: NavController) {
             Spacer(modifier = Modifier.weight(0.5f))
         }
 
-        // Bottom Section (Light Sheet)
+        // Bottom Sheet (Lembar Bawah) dengan tema terang untuk menampilkan detail
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -144,7 +147,7 @@ fun CaloriesDetailScreen(navController: NavController) {
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Tab Selector
+                // UI Tab Selector untuk memilih periode waktu (Day, Week, Month, Year)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -176,7 +179,7 @@ fun CaloriesDetailScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // Dinamis Konten Grafik Berdasarkan Tab yang Dipilih
+                // Menampilkan grafik bar dinamis berdasarkan tab yang sedang dipilih
                 when (selectedTab) {
                     "Day" -> DayOverviewContent()
                     "Week" -> WeeklyOverviewContent()
@@ -188,7 +191,7 @@ fun CaloriesDetailScreen(navController: NavController) {
                 HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Footer Row
+                // UI Bagian Footer (Bawah) untuk menampilkan statistik tambahan (Waktu, Aktif, Istirahat)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -231,6 +234,7 @@ data class ChartItemData(
     val value: Int
 )
 
+// Komponen fungsi pembantu untuk menampilkan grafik bar yang dapat di-scroll
 @Composable
 fun ScrollableBarChartContent(
     title: String,
@@ -264,7 +268,7 @@ fun ScrollableBarChartContent(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Sequential Timeline Bar Chart (Scrollable forward into future & back into past)
+        // Bagian yang menampilkan grafik bar (Scrollable maju ke masa depan dan mundur ke masa lalu)
         LazyRow(
             state = listState,
             modifier = Modifier
@@ -313,6 +317,7 @@ fun ScrollableBarChartContent(
     }
 }
 
+// Konten grafik untuk tab "Day" (Hari)
 @Composable
 fun DayOverviewContent() {
     var selectedHour by remember { mutableStateOf("18:00") }
@@ -341,6 +346,7 @@ fun DayOverviewContent() {
     )
 }
 
+// Konten grafik untuk tab "Week" (Minggu)
 @Composable
 fun WeeklyOverviewContent() {
     var selectedDay by remember { mutableStateOf("Wed") }
@@ -369,6 +375,7 @@ fun WeeklyOverviewContent() {
     )
 }
 
+// Konten grafik untuk tab "Month" (Bulan)
 @Composable
 fun MonthlyOverviewContent() {
     var selectedDay by remember { mutableStateOf("15") }
@@ -396,6 +403,7 @@ fun MonthlyOverviewContent() {
     )
 }
 
+// Konten grafik untuk tab "Year" (Tahun)
 @Composable
 fun YearlyOverviewContent() {
     var selectedMonth by remember { mutableStateOf("Jul") }
