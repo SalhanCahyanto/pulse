@@ -1,7 +1,9 @@
 package com.example.pulse
 
+import androidx.navigation.NavController
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -21,9 +23,18 @@ import androidx.compose.ui.unit.sp
 import com.example.pulse.ui.theme.*
 
 @Composable
-fun FitnessDashboardScreen() {
+fun FitnessDashboardScreen(navController: NavController) {
     Scaffold(
-        bottomBar = { CustomBottomNavigation() },
+        bottomBar = {
+            CustomBottomNavigation(
+                onNavigateInsight = {
+                    navController.navigate("insight") {
+                        popUpTo("home")
+                        launchSingleTop = true
+                    }
+                }
+            )
+        },
         containerColor = LightBackground
     ) { paddingValues ->
         Column(
@@ -224,7 +235,7 @@ fun CommunitySection() {
 }
 
 @Composable
-fun CustomBottomNavigation() {
+fun CustomBottomNavigation(onNavigateInsight: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(16.dp).height(70.dp),
         colors = CardDefaults.cardColors(containerColor = LimeGreen),
@@ -236,11 +247,20 @@ fun CustomBottomNavigation() {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.clickable { onNavigateInsight() }
+            ) {
                 Icon(painterResource(id = R.drawable.ic_book_open), contentDescription = "Insight", tint = DarkCard, modifier = Modifier.size(24.dp))
                 Spacer(modifier = Modifier.height(4.dp))
                 Text("Insight", color = DarkCard, fontSize = 12.sp, fontWeight = FontWeight.Medium)
             }
+
+//            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                Icon(painterResource(id = R.drawable.ic_book_open), contentDescription = "Insight", tint = DarkCard, modifier = Modifier.size(24.dp))
+//                Spacer(modifier = Modifier.height(4.dp))
+//                Text("Insight", color = DarkCard, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+//            }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(modifier = Modifier.background(Color.White, CircleShape).padding(12.dp)) {
                     Icon(painterResource(id = R.drawable.ic_house), contentDescription = "Home", tint = DarkCard, modifier = Modifier.size(24.dp))

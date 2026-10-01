@@ -53,7 +53,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.pulse.ui.theme.LightBackground
 import com.example.pulse.ui.theme.PulseTheme
 
@@ -66,9 +70,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = LightBackground
                 ) {
-                    FitnessDashboardScreen()
+                    PulseAppNavigation()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun PulseAppNavigation() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home") {
+            FitnessDashboardScreen(navController = navController)
+        }
+        composable("insight") {
+            InsightScreen(navController = navController)
         }
     }
 }
