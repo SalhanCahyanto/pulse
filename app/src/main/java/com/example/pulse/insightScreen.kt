@@ -62,12 +62,6 @@ fun InsightScreen(navController: NavController) {
             InsightBioRhythmCard()
         }
 
-        // Floating Bottom Navigation
-//        InsightFloatingBottomNav(
-//            modifier = Modifier
-//                .align(Alignment.BottomCenter)
-//                .padding(bottom = 32.dp, start = 24.dp, end = 24.dp),
-//        )
         InsightFloatingBottomNav(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -309,25 +303,6 @@ fun InsightBioRhythmCard() {
     }
 }
 
-//sementara
-//@Composable
-//fun InsightFloatingBottomNav(modifier: Modifier = Modifier, onNavigateHome: () -> Unit) {
-//    Row(
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .height(80.dp)
-//            .background(LimeGreen, shape = CircleShape)
-//            .border(1.dp, DarkCard, shape = CircleShape)
-//            .padding(horizontal = 24.dp),
-//        horizontalArrangement = Arrangement.SpaceBetween,
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        InsightNavItem(iconRes = R.drawable.ic_book_open, label = "Insight", isSelected = true, onClick = {})
-//        InsightNavItem(iconRes = R.drawable.ic_house, label = "Home", isSelected = false, onClick = onNavigateHome)
-//        InsightNavItem(iconRes = R.drawable.ic_user, label = "Profile", isSelected = false, onClick = {})
-//    }
-//}
-// insightScreen.kt
 @Composable
 fun InsightFloatingBottomNav(
     modifier: Modifier = Modifier,
@@ -339,9 +314,8 @@ fun InsightFloatingBottomNav(
             .fillMaxWidth()
             .height(80.dp)
             .background(LimeGreen, shape = CircleShape)
-            .border(1.dp, DarkCard, shape = CircleShape)
-            .padding(horizontal = 24.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .border(1.dp, DarkCard, shape = CircleShape),
+        horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
         InsightNavItem(iconRes = R.drawable.ic_book_open, label = "Insight", isSelected = true, onClick = {})
