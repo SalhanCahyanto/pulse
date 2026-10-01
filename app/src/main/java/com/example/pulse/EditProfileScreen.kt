@@ -32,11 +32,14 @@ import com.example.pulse.ui.theme.*
 
 @Composable
 fun EditProfileScreen(navController: NavController) {
+    // State lokal untuk menyimpan data inputan form
     var fullName by remember { mutableStateOf("Naip") }
     var email by remember { mutableStateOf("naip@sora.io") }
     
+    // State untuk scroll layar
     val scrollState = rememberScrollState()
 
+    // Container utama layar
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,6 +50,7 @@ fun EditProfileScreen(navController: NavController) {
             .padding(top = 24.dp, bottom = 48.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // UI Bagian Header (Judul Halaman)
         Text(
             text = "Edit Profile",
             style = MaterialTheme.typography.titleLarge,
@@ -56,7 +60,7 @@ fun EditProfileScreen(navController: NavController) {
         
         Spacer(modifier = Modifier.height(32.dp))
         
-        // Profile Picture Section
+        // UI Bagian Foto Profil (Profile Picture Section)
         Box(
             modifier = Modifier.size(100.dp)
         ) {
@@ -88,11 +92,12 @@ fun EditProfileScreen(navController: NavController) {
         
         Spacer(modifier = Modifier.height(48.dp))
         
-        // Typable Input Fields
+        // UI Form Input Data Pengguna (Typable Input Fields)
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
         ) {
+            // Kotak Input Nama Lengkap
             Text(
                 text = "FULL NAME",
                 style = MaterialTheme.typography.labelMedium,
@@ -130,6 +135,7 @@ fun EditProfileScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // Kotak Input Alamat Email
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
@@ -171,7 +177,7 @@ fun EditProfileScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(48.dp))
         
-        // Security & Preferences Section
+        // UI Bagian Keamanan & Preferensi Akun
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
@@ -190,10 +196,11 @@ fun EditProfileScreen(navController: NavController) {
                     .background(DarkCard, shape = RoundedCornerShape(16.dp))
                     .padding(horizontal = 16.dp)
             ) {
+                // Tombol Pilihan Ganti Password
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { /* Change Password */ }
+                        .clickable { /* TODO: Logika aksi untuk ganti password */ }
                         .padding(vertical = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -221,10 +228,11 @@ fun EditProfileScreen(navController: NavController) {
                 
                 HorizontalDivider(color = Color.DarkGray.copy(alpha = 0.5f))
                 
+                // Tombol Pilihan Pengaturan Notifikasi
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { /* Notifications */ }
+                        .clickable { /* TODO: Logika aksi pengaturan notifikasi */ }
                         .padding(vertical = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -254,12 +262,14 @@ fun EditProfileScreen(navController: NavController) {
         
         Spacer(modifier = Modifier.height(48.dp))
 
-        // Buttons
+        // UI Bagian Tombol Aksi Bawah (Footer Buttons)
+        // Tombol Simpan Perubahan (Save Changes)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(50))
                 .background(LimeGreen)
+                // Fungsi navigasi: Kembali ke halaman profil
                 .clickable { navController.popBackStack() }
                 .padding(vertical = 16.dp),
             contentAlignment = Alignment.Center
@@ -274,12 +284,13 @@ fun EditProfileScreen(navController: NavController) {
         
         Spacer(modifier = Modifier.height(16.dp))
         
+        // Tombol Keluar Akun (Log Out)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(50))
                 .border(2.dp, Color(0xFFE53935), RoundedCornerShape(50))
-                .clickable { /* Log Out */ }
+                .clickable { /* TODO: Logika aksi untuk keluar akun/Log Out */ }
                 .padding(vertical = 16.dp),
             contentAlignment = Alignment.Center
         ) {

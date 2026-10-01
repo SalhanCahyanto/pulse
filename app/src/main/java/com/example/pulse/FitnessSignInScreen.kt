@@ -1,5 +1,6 @@
 package com.example.pulse
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -35,19 +37,24 @@ import com.example.pulse.ui.theme.DarkCard
 import com.example.pulse.ui.theme.LimeGreen
 import com.example.pulse.ui.theme.TextGray
 
+// Halaman Utama untuk proses Sign In (Masuk)
 @Composable
 fun FitnessSignInScreen(navController: NavController) {
+    // State lokal untuk menyimpan input email
     var email by remember { mutableStateOf("") }
+    // State lokal untuk menyimpan input password
     var password by remember { mutableStateOf("") }
+    // State lokal untuk mengatur visibilitas (terlihat/tersembunyi) teks password
     var passwordVisible by remember { mutableStateOf(false) }
 
+    // Container utama layar dengan sistem tumpukan (overlay)
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFFAFAFA))
     ) {
-        // 1. Background Decorative Layer
-        // Top Right Circle
+        // 1. Lapisan Latar Belakang Dekoratif (Background Decorative Layer)
+        // Lingkaran Hijau di Kanan Atas
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -56,7 +63,7 @@ fun FitnessSignInScreen(navController: NavController) {
                 .background(LimeGreen, shape = CircleShape)
         )
         
-        // Mid-Right Shape
+        // Bentuk Kapsul Abu-abu di Kanan Tengah
         Box(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
@@ -67,7 +74,7 @@ fun FitnessSignInScreen(navController: NavController) {
                 .background(Color(0xFFF0F0F0), shape = RoundedCornerShape(50))
         )
 
-        // Mid-Left Shape
+        // Bentuk Kapsul Hijau di Kiri Tengah
         Box(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -78,7 +85,7 @@ fun FitnessSignInScreen(navController: NavController) {
                 .background(LimeGreen, shape = RoundedCornerShape(50))
         )
 
-        // 3. Foreground Content Layer
+        // 3. Lapisan Konten Utama di Depan (Bisa di-scroll vertikal)
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -87,7 +94,7 @@ fun FitnessSignInScreen(navController: NavController) {
                 .navigationBarsPadding()
                 .padding(24.dp)
         ) {
-            // Top Bar
+            // UI Bagian Bar Atas (Teks SORA dan Badge MEMBER)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -125,24 +132,25 @@ fun FitnessSignInScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Header
+            // UI Bagian Header (Logo Utama, Salam, dan Subteks)
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Logo
+                // Kotak Logo Utama dengan efek bayangan (shadow)
                 Box(
                     modifier = Modifier
                         .size(100.dp)
                         .shadow(elevation = 24.dp, shape = CircleShape, spotColor = DarkCard, ambientColor = DarkCard)
-                        .background(DarkCard, CircleShape),
+                        .background(DarkCard, CircleShape)
+                        .clip(CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_logo),
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_sora),
                         contentDescription = "Logo",
-                        tint = LimeGreen,
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
                     )
                 }
 
@@ -166,11 +174,11 @@ fun FitnessSignInScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Input Fields
+            // UI Bagian Form Input (Email dan Password)
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Email
+                // Kolom Input Email
                 Text(
                     text = "EMAIL",
                     style = MaterialTheme.typography.labelMedium,
@@ -201,7 +209,7 @@ fun FitnessSignInScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Password
+                // Kolom Input Password
                 Text(
                     text = "PASSWORD",
                     style = MaterialTheme.typography.labelMedium,
@@ -222,6 +230,7 @@ fun FitnessSignInScreen(navController: NavController) {
                             Icons.Default.Visibility
                         else Icons.Default.VisibilityOff
 
+                        // Tombol ikon (mata) untuk menampilkan atau menyembunyikan teks password
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(imageVector = image, contentDescription = "Toggle Password Visibility", tint = TextGray)
                         }
@@ -242,6 +251,7 @@ fun FitnessSignInScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // UI Teks Lupa Password (Bisa diklik)
                 Text(
                     text = "Forgot Password?",
                     style = MaterialTheme.typography.labelLarge,
@@ -249,23 +259,25 @@ fun FitnessSignInScreen(navController: NavController) {
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .align(Alignment.End)
+                        // Fungsi/logika aksi saat teks Lupa Password diklik
                         .clickable { /* Handle forgot password */ }
                 )
             }
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Buttons
+            // UI Bagian Tombol Aksi Bawah
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Login Button
+                // Tombol Login Utama
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(64.dp)
                         .background(LimeGreen, shape = RoundedCornerShape(32.dp))
                         .clip(RoundedCornerShape(32.dp))
+                        // Fungsi navigasi: Berpindah ke halaman personal_data setelah login berhasil
                         .clickable { navController.navigate("personal_data") }
                         .padding(horizontal = 24.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -295,13 +307,14 @@ fun FitnessSignInScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Google Sign In
+                // Tombol Login dengan Google
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(64.dp)
                         .background(Color(0xFF4A4E59), shape = RoundedCornerShape(32.dp))
                         .clip(RoundedCornerShape(32.dp))
+                        // Logika untuk aksi login Google
                         .clickable { /* Handle Google Sign In */ }
                         .padding(horizontal = 24.dp),
                     horizontalArrangement = Arrangement.Center,

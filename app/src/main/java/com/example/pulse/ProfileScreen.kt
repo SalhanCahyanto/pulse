@@ -22,11 +22,13 @@ import com.example.pulse.ui.theme.*
 
 @Composable
 fun ProfileScreen(navController: NavController) {
+    // Container utama layar dengan background terang
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(LightBackground)
     ) {
+        // UI Lapisan Latar Belakang (Lingkaran abu-abu transparan di pojok kanan atas)
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -35,14 +37,17 @@ fun ProfileScreen(navController: NavController) {
                 .background(Color(0xFFD3D8DD).copy(alpha = 0.7f), shape = CircleShape)
         )
 
+        // UI Lapisan Konten Utama yang bisa di-scroll
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp)
+                // Padding ekstra di bawah agar konten tidak tertutup navigasi melayang (bottom nav)
                 .padding(top = 48.dp, bottom = 120.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // UI Bagian Header (Judul Halaman Profile)
             Text(
                 text = "My Profile",
                 style = MaterialTheme.typography.titleLarge,
@@ -51,21 +56,30 @@ fun ProfileScreen(navController: NavController) {
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(8.dp))
+            
+            // Kartu Profil Pengguna. Bisa diklik untuk berpindah ke halaman edit profil.
             UserProfileCard(onClick = { navController.navigate("edit_profile") })
+            
+            // Kartu Detail Kesehatan. Bisa diklik untuk berpindah ke halaman edit detail kesehatan.
             HealthDetailsCard(onEditClick = { navController.navigate("edit_health") })
+            
+            // Kartu Target Bergerak (Move Goals). Bisa diklik untuk berpindah ke halaman edit move goals.
             MoveGoalsCard(onEditClick = { navController.navigate("edit_move_goal") })
         }
 
+        // Komponen Navigasi Bawah Melayang (Floating Bottom Nav) khusus layar Profil
         ProfileBottomNav(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 32.dp, start = 24.dp, end = 24.dp),
+            // Fungsi navigasi untuk kembali ke halaman Dashboard utama
             onNavigateHome = {
                 navController.navigate("home") {
                     popUpTo("home") { inclusive = false }
                     launchSingleTop = true
                 }
             },
+            // Fungsi navigasi untuk pindah ke halaman Insight
             onNavigateInsight = {
                 navController.navigate("insight") {
                     popUpTo("home") { inclusive = false }
@@ -76,6 +90,7 @@ fun ProfileScreen(navController: NavController) {
     }
 }
 
+// UI Komponen: Kartu Profil Pengguna (Menampilkan foto, nama, status aktif, dan level)
 @Composable
 fun UserProfileCard(onClick: () -> Unit = {}) {
     Box(
@@ -83,11 +98,12 @@ fun UserProfileCard(onClick: () -> Unit = {}) {
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
             .background(DarkCard)
+            // Menangani aksi saat kartu ini diklik
             .clickable { onClick() }
             .padding(20.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            // Profile Image Placeholder
+            // UI Placeholder Gambar Profil Pengguna (Profile Image Placeholder)
             Box(modifier = Modifier.size(72.dp)) {
                 Box(
                     modifier = Modifier
@@ -95,7 +111,7 @@ fun UserProfileCard(onClick: () -> Unit = {}) {
                         .background(Color.Gray, shape = CircleShape)
                         .clip(CircleShape)
                 )
-                // Level Check Badge
+                // UI Badge Verifikasi Level/Akun (Checkmark di pojok kanan bawah foto)
                 Box(
                     modifier = Modifier
                         .size(20.dp)
@@ -126,7 +142,8 @@ fun UserProfileCard(onClick: () -> Unit = {}) {
                     color = TextGray
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                // Level Badge
+                
+                // UI Badge Level Pengguna (Misal: Level 12)
                 Box(
                     modifier = Modifier
                         .background(DarkBackground, shape = RoundedCornerShape(12.dp))
@@ -153,6 +170,7 @@ fun UserProfileCard(onClick: () -> Unit = {}) {
     }
 }
 
+// UI Komponen: Kartu Detail Kesehatan (Menampilkan info biometrik dasar)
 @Composable
 fun HealthDetailsCard(onEditClick: () -> Unit = {}) {
     Box(
@@ -162,7 +180,7 @@ fun HealthDetailsCard(onEditClick: () -> Unit = {}) {
             .padding(20.dp)
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-            // Header Row
+            // UI Baris Header (Judul "Health Details" dan tombol Edit)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -183,11 +201,13 @@ fun HealthDetailsCard(onEditClick: () -> Unit = {}) {
                         color = Color.White
                     )
                 }
-                // Edit Button
+                
+                // UI Tombol Edit (Kecil di pojok kanan)
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
                         .background(Color(0xFF2D3C2C))
+                        // Menangani aksi ketika tombol edit diklik
                         .clickable { onEditClick() }
                         .padding(horizontal = 12.dp, vertical = 6.dp)
                 ) {
@@ -209,7 +229,7 @@ fun HealthDetailsCard(onEditClick: () -> Unit = {}) {
                 }
             }
 
-            // Stats Grid
+            // UI Grid Statistik (Berisi 4 data: Tanggal Lahir, Jenis Kelamin, Tinggi, Berat)
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     HealthDetailItem(
@@ -244,6 +264,7 @@ fun HealthDetailsCard(onEditClick: () -> Unit = {}) {
     }
 }
 
+// UI Komponen Pembantu: Untuk menampilkan satu elemen statistik di dalam HealthDetailsCard
 @Composable
 fun HealthDetailItem(iconRes: Int, label: String, value: String, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
@@ -271,6 +292,7 @@ fun HealthDetailItem(iconRes: Int, label: String, value: String, modifier: Modif
     }
 }
 
+// UI Komponen: Kartu Target Pergerakan Harian (Move Goals)
 @Composable
 fun MoveGoalsCard(onEditClick: () -> Unit = {}) {
     Box(
@@ -280,7 +302,7 @@ fun MoveGoalsCard(onEditClick: () -> Unit = {}) {
             .padding(20.dp)
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-            // Header Row
+            // UI Baris Header (Judul "Daily Move Goals" dan tombol edit)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -301,11 +323,13 @@ fun MoveGoalsCard(onEditClick: () -> Unit = {}) {
                         color = Color.White
                     )
                 }
-                // Edit Button
+                
+                // UI Tombol Edit
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
                         .background(Color(0xFF2D3C2C))
+                        // Menangani aksi saat tombol edit ini diklik
                         .clickable { onEditClick() }
                         .padding(horizontal = 12.dp, vertical = 6.dp)
                 ) {
@@ -327,7 +351,7 @@ fun MoveGoalsCard(onEditClick: () -> Unit = {}) {
                 }
             }
 
-            // Content Row
+            // UI Baris Konten: Menampilkan jumlah target kalori dan Ikon Api
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -367,6 +391,7 @@ fun MoveGoalsCard(onEditClick: () -> Unit = {}) {
     }
 }
 
+// UI Komponen Pembantu: Kotak Navigasi Bawah Mengambang (Floating Bottom Nav) khusus layar Profil
 @Composable
 fun ProfileBottomNav(
     modifier: Modifier = Modifier,
@@ -403,11 +428,13 @@ fun ProfileBottomNav(
     }
 }
 
+// UI Komponen Pembantu: Tombol Ikon Individual di Bar Navigasi
 @Composable
 fun ProfileNavItem(iconRes: Int, label: String, isSelected: Boolean, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
+        // Logika fungsi klik saat ikon navigasi ditekan
         modifier = Modifier.clickable { onClick() }
     ) {
         val backgroundColor = if (isSelected) Color.White else Color.Transparent

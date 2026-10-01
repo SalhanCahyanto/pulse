@@ -32,12 +32,13 @@ import com.example.pulse.ui.theme.*
 @Composable
 fun InsightScreen(navController: NavController) {
 
+    // Container utama untuk layar Insight
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(LightBackground)
     ) {
-        // Decorative background circle
+        // Lapisan Latar Belakang (Decorative background circle)
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -46,13 +47,14 @@ fun InsightScreen(navController: NavController) {
                 .background(Color(0xFFD3D8DD).copy(alpha = 0.7f), shape = CircleShape)
         )
 
-        // Main Content
+        // UI Lapisan Konten Utama yang bisa di-scroll secara vertikal
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp)
-                .padding(top = 48.dp, bottom = 120.dp), // Extra bottom padding for floating nav
+                // Padding bawah ekstra untuk memberi ruang pada navigasi melayang (floating nav)
+                .padding(top = 48.dp, bottom = 120.dp), 
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             InsightHeaderSection()
@@ -62,16 +64,19 @@ fun InsightScreen(navController: NavController) {
             InsightBioRhythmCard()
         }
 
+        // Komponen Navigasi Bawah Melayang (Floating Bottom Nav) khusus layar Insight
         InsightFloatingBottomNav(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 32.dp, start = 24.dp, end = 24.dp),
+            // Fungsi navigasi: Kembali ke halaman utama (Home) saat diklik
             onNavigateHome = {
                 navController.navigate("home") {
                     popUpTo("home") { inclusive = false }
                     launchSingleTop = true
                 }
             },
+            // Fungsi navigasi: Berpindah ke halaman profil saat diklik
             onNavigateProfile = {
                 navController.navigate("profile") {
                     popUpTo("home") { inclusive = false }
@@ -82,6 +87,7 @@ fun InsightScreen(navController: NavController) {
     }
 }
 
+// UI Bagian Header (Menampilkan Judul Halaman Insight)
 @Composable
 fun InsightHeaderSection() {
     Column {
@@ -100,6 +106,7 @@ fun InsightHeaderSection() {
     }
 }
 
+// Card Konten: Daftar Catatan Harian Pengguna
 @Composable
 fun InsightCatatanHarianCard() {
     Box(
@@ -183,6 +190,7 @@ fun InsightCatatanHarianCard() {
     }
 }
 
+// Card Konten: Menampilkan Kutipan Motivasi (Quote)
 @Composable
 fun InsightQuoteCard() {
     Box(
@@ -219,6 +227,7 @@ fun InsightQuoteCard() {
     }
 }
 
+// Card Konten: Grafik Bio-Rhythm Flow menggunakan Canvas
 @Composable
 fun InsightBioRhythmCard() {
     Box(
@@ -303,6 +312,7 @@ fun InsightBioRhythmCard() {
     }
 }
 
+// UI Komponen Pembantu: Kotak Bar Navigasi Bawah
 @Composable
 fun InsightFloatingBottomNav(
     modifier: Modifier = Modifier,
@@ -324,11 +334,13 @@ fun InsightFloatingBottomNav(
     }
 }
 
+// UI Komponen Pembantu: Tombol Ikon Individual di Bar Navigasi
 @Composable
 fun InsightNavItem(iconRes: Int, label: String, isSelected: Boolean, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
+        // Menangani aksi klik pada ikon navigasi
         modifier = Modifier.clickable { onClick() }
     ) {
         val backgroundColor = if (isSelected) LightBackground else Color.Transparent

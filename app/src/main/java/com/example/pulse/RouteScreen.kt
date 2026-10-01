@@ -31,28 +31,30 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 
+// Layar Rute Peta (Peta GPS)
 @Composable
 fun GpsRouteScreen(navController: NavController) {
-    // State untuk melacak posisi vertikal panel
+    // State untuk melacak posisi vertikal (geser ke atas/bawah) panel informasi
     var offsetY by remember { mutableFloatStateOf(0f) }
     
-    // Batas geser: minOffset (geser ke atas) & maxOffset (geser ke bawah)
+    // Batas geser panel: minOffset (geser maksimal ke atas) & maxOffset (geser maksimal ke bawah)
     val minOffset = -220f
     val maxOffset = 280f
 
-    // Animasi perubahan offset agar geseran terasa mulus saat dilepas atau ditoggle
+    // Logika Animasi: Perubahan offset agar gerakan panel terasa mulus (spring physics) saat dilepas
     val animatedOffsetY by animateFloatAsState(
         targetValue = offsetY,
         animationSpec = spring(stiffness = 300f),
         label = "sheetOffsetAnimation"
     )
 
-    // Map Settings
+    // Pengaturan Peta (Google Maps)
     val startLocation = LatLng(37.4220, -122.0841)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(startLocation, 15f)
     }
     
+    // Konfigurasi antarmuka peta (menyembunyikan tombol zoom, menampilkan kompas)
     val mapUiSettings by remember {
         mutableStateOf(
             MapUiSettings(
@@ -62,10 +64,12 @@ fun GpsRouteScreen(navController: NavController) {
         )
     }
 
+    // Container utama layar dengan sistem tumpukan
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         // 1. LATAR BELAKANG: PETA & RUTE GPS
+        /* Bagian ini adalah kode GoogleMap asli yang saat ini dinonaktifkan sementara */
         /* GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState,
@@ -78,6 +82,8 @@ fun GpsRouteScreen(navController: NavController) {
             //     width = 10f
             // )
         } */
+        
+        // Placeholder layar kosong pengganti GoogleMap
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -93,8 +99,9 @@ fun GpsRouteScreen(navController: NavController) {
             )
         }
 
-        // Tombol Back to Community di pojok kiri atas
+        // UI Tombol Back di pojok kiri atas
         IconButton(
+            // Fungsi navigasi: Kembali ke halaman sebelumnya saat tombol panah kiri diklik
             onClick = { navController.popBackStack() },
             modifier = Modifier
                 .statusBarsPadding()
@@ -109,15 +116,17 @@ fun GpsRouteScreen(navController: NavController) {
             )
         }
 
-        // 2. PANEL BAWAH (ACTIVE SESSION) YANG BISA DIDRAG KE ATAS & KE BAWAH
+        // 2. PANEL BAWAH (ACTIVE SESSION) YANG BISA DIGESER (DRAG) KE ATAS & KE BAWAH
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
+                // Offset animasi untuk menggerakkan panel secara vertikal
                 .offset(y = animatedOffsetY.dp)
+                // Logika deteksi gestur geser (drag) oleh pengguna
                 .pointerInput(Unit) {
                     detectVerticalDragGestures(
                         onDragEnd = {
-                            // Snap ke posisi terdekat saat jari dilepas
+                            // Fungsi Snap: Memosisikan panel ke batas terdekat saat jari dilepas
                             offsetY = when {
                                 offsetY < -100f -> minOffset
                                 offsetY > 120f -> maxOffset
@@ -125,17 +134,19 @@ fun GpsRouteScreen(navController: NavController) {
                             }
                         }
                     ) { _, dragAmount ->
-                        // Mengatur batas agar bisa digeser KE ATAS (negatif) maupun KE BAWAH (positif)
+                        // Logika batas geser: Mengatur batas agar panel tidak keluar dari layar ke atas maupun ke bawah
                         offsetY = (offsetY + dragAmount).coerceIn(minOffset, maxOffset)
                     }
                 }
         ) {
+            // Komponen Sheet (Panel Informasi)
             ActiveSessionSheet(
                 onToggleMinimize = {
-                    // Toggle buka / tutup cepat saat handle diklik
+                    // Fungsi aksi: Buka / tutup panel secara cepat (toggle) ketika indikator geser atas/bawah diklik
                     offsetY = if (offsetY > 100f) 0f else maxOffset
                 },
                 onShareClick = {
+                    // Fungsi navigasi: Kembali saat share diklik
                     navController.popBackStack()
                 }
             )
@@ -143,6 +154,7 @@ fun GpsRouteScreen(navController: NavController) {
     }
 }
 
+// UI Komponen: Panel Bawah Informasi Sesi Aktif (Active Session Sheet)
 @Composable
 fun ActiveSessionSheet(onToggleMinimize: () -> Unit, onShareClick: () -> Unit) {
     Card(
@@ -158,10 +170,11 @@ fun ActiveSessionSheet(onToggleMinimize: () -> Unit, onShareClick: () -> Unit) {
                 .padding(horizontal = 24.dp, vertical = 16.dp)
                 .navigationBarsPadding()
         ) {
-            // Garis Handle Dragging di bagian atas panel (dapat diklik)
+            // UI Garis Penanda Geser (Handle Dragging) di bagian atas panel
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    // Fungsi aksi: Memanggil toggle (buka/tutup) saat indikator ini diklik
                     .clickable { onToggleMinimize() }
                     .padding(vertical = 8.dp),
                 contentAlignment = Alignment.Center
@@ -177,10 +190,11 @@ fun ActiveSessionSheet(onToggleMinimize: () -> Unit, onShareClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Header Active Session & Status LIVE
+            // UI Bagian Header Panel (Status Sesi Aktif)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    // Fungsi aksi: Memanggil toggle panel saat judul diklik
                     .clickable { onToggleMinimize() },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -201,7 +215,7 @@ fun ActiveSessionSheet(onToggleMinimize: () -> Unit, onShareClick: () -> Unit) {
                     )
                 }
 
-                // Badge LIVE
+                // UI Badge Indikator LIVE (Titik hijau dan teks Live)
                 Surface(
                     shape = CircleShape,
                     color = Color.Black.copy(alpha = 0.08f)
@@ -228,23 +242,26 @@ fun ActiveSessionSheet(onToggleMinimize: () -> Unit, onShareClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // 3 Kotak Statistik (Distance, Calories, Steps)
+            // UI Bagian 3 Kotak Statistik (Jarak, Kalori, Langkah)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
+                // Kartu Statistik Jarak Tempuh
                 StatCard(
                     modifier = Modifier.weight(1f),
                     iconRes = R.drawable.ic_map_pin,
                     label = "Distance",
                     value = "5.2 km"
                 )
+                // Kartu Statistik Kalori Terbakar
                 StatCard(
                     modifier = Modifier.weight(1f),
                     iconRes = R.drawable.ic_fire,
                     label = "Calories",
                     value = "320 kcal"
                 )
+                // Kartu Statistik Jumlah Langkah
                 StatCard(
                     modifier = Modifier.weight(1f),
                     iconRes = R.drawable.ic_footprints, // Or another icon if footprints doesn't exist
@@ -255,8 +272,9 @@ fun ActiveSessionSheet(onToggleMinimize: () -> Unit, onShareClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Tombol Share Route
+            // UI Tombol Bagikan Rute (Share Route Button)
             Button(
+                // Aksi saat tombol bagikan ditekan
                 onClick = onShareClick,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -284,6 +302,7 @@ fun ActiveSessionSheet(onToggleMinimize: () -> Unit, onShareClick: () -> Unit) {
     }
 }
 
+// UI Komponen Pembantu: Untuk menampilkan kotak data statistik kecil di panel bawah
 @Composable
 fun StatCard(
     modifier: Modifier = Modifier,

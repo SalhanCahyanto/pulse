@@ -22,16 +22,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pulse.ui.theme.*
 
+// Layar Detail Langkah (Step Count)
 @Composable
 fun StepCountDetailScreen(navController: NavController) {
+    // State untuk menyimpan status tab yang sedang dipilih (Day, Week, Month, Year)
     var selectedTab by remember { mutableStateOf("Week") }
 
+    // Container utama layar dengan warna background gelap
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(DarkBackground)
     ) {
-        // Top Section (Dark Theme)
+        // UI Bagian Atas (Mendorong bottom sheet ke bawah)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -39,16 +42,18 @@ fun StepCountDetailScreen(navController: NavController) {
                 .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Top Bar
+            // UI Bagian Header (Judul Layar dan Tombol Kembali)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // UI Tombol Back di pojok kiri atas
                 Box(
                     modifier = Modifier
                         .size(48.dp)
                         .background(DarkCard, shape = CircleShape)
                         .clip(CircleShape)
+                        // Fungsi navigasi untuk kembali ke halaman sebelumnya
                         .clickable { navController.popBackStack() },
                     contentAlignment = Alignment.Center
                 ) {
@@ -62,6 +67,7 @@ fun StepCountDetailScreen(navController: NavController) {
                 
                 Spacer(modifier = Modifier.weight(1f))
                 
+                // Judul Halaman
                 Text(
                     text = "Step Count Details",
                     style = MaterialTheme.typography.titleLarge,
@@ -75,15 +81,16 @@ fun StepCountDetailScreen(navController: NavController) {
             
             Spacer(modifier = Modifier.weight(1f))
             
-            // Hero Graphic
+            // UI Bagian Grafik Lingkaran Utama (Hero Graphic) yang responsif
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
                     .aspectRatio(1f)
             ) {
-                // Outer Arc
+                // Outer Arc (Lintasan background dan progress)
                 Canvas(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                    // Menggambar lintasan latar belakang (abu-abu)
                     drawArc(
                         color = Color.Gray.copy(alpha = 0.3f),
                         startAngle = 135f,
@@ -91,6 +98,7 @@ fun StepCountDetailScreen(navController: NavController) {
                         useCenter = false,
                         style = Stroke(width = 12.dp.toPx(), cap = StrokeCap.Round)
                     )
+                    // Menggambar lintasan progress langkah saat ini (hijau)
                     drawArc(
                         color = LimeGreen,
                         startAngle = 135f,
@@ -100,7 +108,7 @@ fun StepCountDetailScreen(navController: NavController) {
                     )
                 }
                 
-                // Central Values inside the Arc
+                // Teks angka langkah di tengah lingkaran
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -127,7 +135,7 @@ fun StepCountDetailScreen(navController: NavController) {
             
             Spacer(modifier = Modifier.weight(1f))
             
-            // Daily Goal
+            // UI Target Langkah Harian (Daily Goal)
             Text(
                 text = "DAILY GOAL:",
                 style = MaterialTheme.typography.labelMedium,
@@ -142,7 +150,7 @@ fun StepCountDetailScreen(navController: NavController) {
             )
         }
         
-        // Bottom Section (Light Theme Sheet)
+        // Bottom Sheet (Lembar Bawah) dengan tema terang untuk menampilkan detail
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -153,7 +161,7 @@ fun StepCountDetailScreen(navController: NavController) {
                 .padding(24.dp)
         ) {
             Column {
-                // Tab Selector
+                // UI Tab Selector untuk memilih periode waktu (Day, Week, Month, Year)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -172,6 +180,7 @@ fun StepCountDetailScreen(navController: NavController) {
                                     shape = RoundedCornerShape(20.dp)
                                 )
                                 .clip(RoundedCornerShape(20.dp))
+                                // Mengubah state tab yang aktif saat diklik
                                 .clickable { selectedTab = tab }
                                 .padding(vertical = 12.dp),
                             contentAlignment = Alignment.Center
@@ -186,9 +195,9 @@ fun StepCountDetailScreen(navController: NavController) {
                     }
                 }
                 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 
-                // Dynamic Title Row
+                // UI Judul Dinamis berdasarkan Tab yang dipilih
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -209,14 +218,14 @@ fun StepCountDetailScreen(navController: NavController) {
                 
                 Spacer(modifier = Modifier.height(20.dp))
                 
-                // Dynamic Scrollable Bar Chart
+                // Menampilkan grafik bar dinamis (Scrollable)
                 StepCountChartSection(selectedTab = selectedTab)
                 
                 Spacer(modifier = Modifier.height(24.dp))
                 HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
                 Spacer(modifier = Modifier.height(20.dp))
                 
-                // Stats Footer
+                // UI Bagian Footer (Bawah) untuk menampilkan statistik tambahan (Jarak, Waktu Aktif, Kalori)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
@@ -253,6 +262,7 @@ fun StepCountDetailScreen(navController: NavController) {
     }
 }
 
+// Komponen pembantu untuk menampilkan satu elemen statistik di dalam Footer
 @Composable
 fun StepStatItem(iconRes: Int, label: String, value: String, subtitle: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -287,10 +297,13 @@ fun StepStatItem(iconRes: Int, label: String, value: String, subtitle: String) {
     }
 }
 
+// Model data untuk menyimpan informasi grafik bar
 data class StepChartData(val label: String, val value: Float, val isHighlighted: Boolean = false)
 
+// Komponen pembantu untuk menampilkan daftar grafik bar
 @Composable
 fun StepCountChartSection(selectedTab: String, modifier: Modifier = Modifier) {
+    // Logika untuk membuat data grafik palsu (dummy) berdasarkan tab yang dipilih
     val chartData = remember(selectedTab) {
         when (selectedTab) {
             "Day" -> (0..23).map {
@@ -317,6 +330,7 @@ fun StepCountChartSection(selectedTab: String, modifier: Modifier = Modifier) {
         }
     }
 
+    // UI Daftar bar grafik yang bisa di-scroll secara horizontal
     LazyRow(
         modifier = modifier
             .fillMaxWidth()

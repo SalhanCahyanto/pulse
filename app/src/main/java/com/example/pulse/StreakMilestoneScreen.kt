@@ -39,10 +39,12 @@ import androidx.navigation.NavController
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.tooling.preview.Preview
 
+// Halaman Pencapaian Streak (Beruntun)
 @Composable
 fun StreakMilestoneScreen(
     navController: NavController? = null,
     streak: Int = 3,
+    // Default aksi tombol kembali (kembali ke halaman Home)
     onBackClick: () -> Unit = {
         navController?.navigate("home") {
             popUpTo("home") { inclusive = false }
@@ -51,8 +53,10 @@ fun StreakMilestoneScreen(
     }
 ) {
 
+    // Mendapatkan context untuk aksi Intent berbagi (Share)
     val context = LocalContext.current
 
+    // Container utama layar
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,18 +67,20 @@ fun StreakMilestoneScreen(
     ) {
 
         // =======================
-        // BACK BUTTON
+        // UI TOMBOL KEMBALI (BACK BUTTON)
         // =======================
 
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
 
+            // Tombol Back di pojok kiri atas
             Box(
                 modifier = Modifier
                     .size(38.dp)
                     .clip(CircleShape)
                     .background(Color(0xFFB8B8B8))
+                    // Fungsi navigasi untuk kembali ke halaman sebelumnya
                     .clickable {
                         onBackClick()
                     },
@@ -92,9 +98,9 @@ fun StreakMilestoneScreen(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // =======================
-        // FIRE + STREAK NUMBER
-        // =======================
+
+        // UI GRAFIK API & ANGKA STREAK (FIRE + STREAK NUMBER)
+
 
         Box(
             modifier = Modifier
@@ -102,7 +108,7 @@ fun StreakMilestoneScreen(
             contentAlignment = Alignment.Center
         ) {
 
-            // Glow
+            // Efek cahaya (Glow) di belakang ikon api
             Box(
                 modifier = Modifier
                     .size(145.dp)
@@ -118,6 +124,7 @@ fun StreakMilestoneScreen(
                     )
             )
 
+            // Ikon Api Utama
             Icon(
                 painter = painterResource(id = R.drawable.ic_fire),
                 contentDescription = "Streak Fire",
@@ -125,7 +132,7 @@ fun StreakMilestoneScreen(
                 modifier = Modifier.size(78.dp)
             )
 
-            // Number streak
+            // Teks Angka Streak
             Text(
                 text = streak.toString(),
                 style = MaterialTheme.typography.displayLarge,
@@ -145,9 +152,8 @@ fun StreakMilestoneScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // =======================
-        // TITLE
-        // =======================
+
+        // UI JUDUL HALAMAN (TITLE)
 
         Text(
             text = "$streak-Day Streak!",
@@ -167,7 +173,7 @@ fun StreakMilestoneScreen(
         Spacer(modifier = Modifier.height(34.dp))
 
         // =======================
-        // WEEKLY PROGRESS
+        // UI KARTU PROGRES MINGGUAN (WEEKLY PROGRESS)
         // =======================
 
         WeeklyProgressCard(
@@ -176,9 +182,8 @@ fun StreakMilestoneScreen(
 
         Spacer(modifier = Modifier.height(22.dp))
 
-        // =======================
-        // BADGE CARD
-        // =======================
+
+        // UI KARTU PENGHARGAAN (BADGE CARD)
 
         WarriorBadgeCard(
             currentDays = streak,
@@ -187,9 +192,9 @@ fun StreakMilestoneScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // =======================
-        // SHARE BUTTON
-        // =======================
+
+        // UI TOMBOL BAGIKAN (SHARE BUTTON)
+
 
         Row(
             modifier = Modifier
@@ -197,8 +202,9 @@ fun StreakMilestoneScreen(
                 .height(58.dp)
                 .clip(RoundedCornerShape(28.dp))
                 .background(LimeGreen)
+                // Logika aksi saat tombol Share diklik
                 .clickable {
-
+                    // Membuat intent untuk membagikan teks pencapaian streak
                     val shareIntent = Intent(Intent.ACTION_SEND).apply {
                         type = "text/plain"
 
@@ -208,6 +214,7 @@ fun StreakMilestoneScreen(
                         )
                     }
 
+                    // Menjalankan aksi bagikan menggunakan menu dialog bawaan Android
                     context.startActivity(
                         Intent.createChooser(
                             shareIntent,
@@ -239,9 +246,8 @@ fun StreakMilestoneScreen(
 }
 
 
-// ========================================================
-// WEEKLY PROGRESS
-// ========================================================
+// KOMPONEN PEMBANTU: KARTU PROGRES MINGGUAN (WEEKLY PROGRESS)
+
 
 @Composable
 private fun WeeklyProgressCard(
@@ -283,6 +289,7 @@ private fun WeeklyProgressCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
+            // Menampilkan indikator (kapsul) untuk setiap hari dalam seminggu
             days.forEachIndexed { index, day ->
 
                 DayIndicator(
@@ -295,9 +302,7 @@ private fun WeeklyProgressCard(
 }
 
 
-// ========================================================
-// DAY INDICATOR
-// ========================================================
+// KOMPONEN PEMBANTU: INDIKATOR HARI (DAY INDICATOR)
 
 @Composable
 private fun DayIndicator(
@@ -305,10 +310,12 @@ private fun DayIndicator(
     completed: Boolean
 ) {
 
+    // Logika warna latar belakang: Hijau jika selesai, Biru/Hitam jika belum
     val backgroundColor =
         if (completed) LimeGreen
         else DarkCard
 
+    // Logika warna konten (huruf dan titik): Biru/Hitam jika selesai, Abu-abu jika belum
     val contentColor =
         if (completed) DarkCard
         else Color(0xFF808790)
@@ -334,7 +341,9 @@ private fun DayIndicator(
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        // Titik bawah indikator
         if (completed) {
+            // Titik hitam untuk hari yang telah diselesaikan
             Box(
                 modifier = Modifier
                     .size(4.dp)
@@ -342,6 +351,7 @@ private fun DayIndicator(
                     .background(DarkCard)
             )
         } else {
+            // Titik abu-abu untuk hari yang belum diselesaikan
             Box(
                 modifier = Modifier
                     .size(4.dp)
@@ -353,9 +363,9 @@ private fun DayIndicator(
 }
 
 
-// ========================================================
-// 7 DAY WARRIOR BADGE
-// ========================================================
+
+// KOMPONEN PEMBANTU: 7 DAY WARRIOR BADGE
+
 
 @Composable
 private fun WarriorBadgeCard(
@@ -363,6 +373,7 @@ private fun WarriorBadgeCard(
     targetDays: Int
 ) {
 
+    // Logika perhitungan progres bar (0.0 - 1.0)
     val progress =
         currentDays.toFloat() / targetDays.toFloat()
 
@@ -378,7 +389,7 @@ private fun WarriorBadgeCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            // Badge icon
+            // UI Ikon Badge Penghargaan
             Box(
                 modifier = Modifier
                     .size(55.dp)
@@ -422,7 +433,7 @@ private fun WarriorBadgeCard(
 
         Spacer(modifier = Modifier.height(17.dp))
 
-        // Progress bar
+        // UI Bar Progres (Progress bar)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -431,6 +442,7 @@ private fun WarriorBadgeCard(
                 .background(DarkCard)
         ) {
 
+            // Indikator garis progres yang terisi
             Box(
                 modifier = Modifier
                     .fillMaxWidth(progress)

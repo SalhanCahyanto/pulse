@@ -31,16 +31,20 @@ import com.example.pulse.ui.theme.LimeGreen
 import com.example.pulse.ui.theme.TextGray
 import java.util.Calendar
 
+// Halaman Utama untuk input Data Personal (Onboarding)
 @Composable
 fun PersonalDataScreen(navController: NavController) {
+    // Mendapatkan context untuk keperluan dialog
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
     
+    // State lokal untuk menyimpan input data pengguna
     var dateOfBirth by remember { mutableStateOf("Date of Birth") }
     var height by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("Male") }
 
+    // Inisialisasi DatePickerDialog untuk memilih tanggal lahir
     val datePickerDialog = DatePickerDialog(
         context,
         { _, selectedYear, selectedMonth, selectedDay ->
@@ -53,13 +57,15 @@ fun PersonalDataScreen(navController: NavController) {
         calendar.get(Calendar.DAY_OF_MONTH)
     )
 
+    // Container utama layar dengan sistem tumpukan (overlay)
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFFAFAFA))
     ) {
-        // 1. Background Decorative Layer
-        // Top Right Circle
+        // 1. Lapisan Latar Belakang Dekoratif (Background Decorative Layer)
+        
+        // Lingkaran Hijau di Kanan Atas
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -68,7 +74,7 @@ fun PersonalDataScreen(navController: NavController) {
                 .background(LimeGreen, shape = CircleShape)
         )
         
-        // Mid-Right Shape
+        // Bentuk Kapsul Abu-abu di Kanan Tengah
         Box(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
@@ -79,7 +85,7 @@ fun PersonalDataScreen(navController: NavController) {
                 .background(Color(0xFFF0F0F0), shape = RoundedCornerShape(50))
         )
 
-        // Mid-Left Shape
+        // Bentuk Kapsul Hijau di Kiri Tengah
         Box(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -90,7 +96,7 @@ fun PersonalDataScreen(navController: NavController) {
                 .background(LimeGreen.copy(alpha = 0.5f), shape = RoundedCornerShape(50))
         )
 
-        // 3. Foreground Content Layer
+        // 2. Lapisan Konten Utama di Depan (Bisa di-scroll vertikal)
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -99,7 +105,7 @@ fun PersonalDataScreen(navController: NavController) {
                 .navigationBarsPadding()
                 .padding(24.dp)
         ) {
-            // Top Bar
+            // UI Bagian Bar Atas (Teks SORA dan Badge PROFILE)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -137,7 +143,7 @@ fun PersonalDataScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Header
+            // UI Bagian Header (Judul dan Subteks)
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -178,11 +184,11 @@ fun PersonalDataScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Inputs
+            // UI Bagian Form Input Data (Tanggal Lahir, Tinggi, Berat, Jenis Kelamin)
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Date of Birth
+                // Form Input Tanggal Lahir (Menampilkan DatePicker saat diklik)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -210,7 +216,7 @@ fun PersonalDataScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Height & Weight Row
+                // UI Form Input Tinggi & Berat Badan (Side-by-side / Sejajar)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -260,7 +266,7 @@ fun PersonalDataScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Gender
+                // Form Input Jenis Kelamin (Toggles)
                 Text(
                     text = "GENDER",
                     style = MaterialTheme.typography.labelMedium,
@@ -272,6 +278,7 @@ fun PersonalDataScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    // Status cek apakah Male atau Female sedang dipilih
                     val isMale = gender == "Male"
                     val isFemale = gender == "Female"
 
@@ -349,13 +356,14 @@ fun PersonalDataScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Continue Button
+            // UI Tombol Lanjutkan (Continue Button)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp)
                     .background(LimeGreen, shape = RoundedCornerShape(32.dp))
                     .clip(RoundedCornerShape(32.dp))
+                    // Fungsi navigasi: Berpindah ke halaman utama (home) dan menghapus riwayat sebelumnya
                     .clickable { 
                         navController.navigate("home") { 
                             popUpTo(0) 
