@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -129,20 +130,35 @@ fun FitnessWelcomeScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 // Logo
-                Box(
-                    modifier = Modifier
-                        .size(120.dp)
-                        .shadow(elevation = 24.dp, shape = CircleShape, spotColor = DarkCard, ambientColor = DarkCard)
-                        .background(DarkCard, CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_logo),
-                        contentDescription = "Logo",
-                        tint = LimeGreen,
-                        modifier = Modifier.size(48.dp)
-                    )
-                }
+//                Box(
+//                    modifier = Modifier
+//                        .size(120.dp)
+//                        .shadow(elevation = 24.dp, shape = CircleShape, spotColor = DarkCard, ambientColor = DarkCard)
+//                        .background(DarkCard, CircleShape),
+//                    contentAlignment = Alignment.Center
+//                ) {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.ic_logo),
+//                        contentDescription = "Logo",
+//                        tint = LimeGreen,
+//                        modifier = Modifier.size(48.dp)
+//                    )
+//                }
+                //logo
+                    Box(
+                        modifier = Modifier
+                            .size(120.dp)
+                            .shadow(elevation = 24.dp, shape = CircleShape, spotColor = DarkCard, ambientColor = DarkCard)
+                            .clip(CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        androidx.compose.foundation.Image(
+                            painter = painterResource(id = R.drawable.logo_sora),
+                            contentDescription = "Logo",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                        )
+                    }
 
                 Spacer(modifier = Modifier.height(32.dp))
 

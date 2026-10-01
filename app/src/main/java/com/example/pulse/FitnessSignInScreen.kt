@@ -1,5 +1,6 @@
 package com.example.pulse
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -135,14 +137,15 @@ fun FitnessSignInScreen(navController: NavController) {
                     modifier = Modifier
                         .size(100.dp)
                         .shadow(elevation = 24.dp, shape = CircleShape, spotColor = DarkCard, ambientColor = DarkCard)
-                        .background(DarkCard, CircleShape),
+                        .background(DarkCard, CircleShape)
+                        .clip(CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_logo),
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_sora),
                         contentDescription = "Logo",
-                        tint = LimeGreen,
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
                     )
                 }
 
