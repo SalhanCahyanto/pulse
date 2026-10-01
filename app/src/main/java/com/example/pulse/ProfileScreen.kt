@@ -43,9 +43,9 @@ fun ProfileScreen(navController: NavController) {
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            UserProfileCard()
-            HealthDetailsCard()
-            MoveGoalsCard()
+            UserProfileCard(onClick = { navController.navigate("edit_profile") })
+            HealthDetailsCard(onEditClick = { navController.navigate("edit_health") })
+            MoveGoalsCard(onEditClick = { navController.navigate("edit_move_goal") })
         }
 
         ProfileBottomNav(
@@ -69,11 +69,13 @@ fun ProfileScreen(navController: NavController) {
 }
 
 @Composable
-fun UserProfileCard() {
+fun UserProfileCard(onClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(DarkCard, shape = RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(24.dp))
+            .background(DarkCard)
+            .clickable { onClick() }
             .padding(20.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -144,7 +146,7 @@ fun UserProfileCard() {
 }
 
 @Composable
-fun HealthDetailsCard() {
+fun HealthDetailsCard(onEditClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -176,7 +178,9 @@ fun HealthDetailsCard() {
                 // Edit Button
                 Box(
                     modifier = Modifier
-                        .background(Color(0xFF2D3C2C), shape = RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFF2D3C2C))
+                        .clickable { onEditClick() }
                         .padding(horizontal = 12.dp, vertical = 6.dp)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -260,7 +264,7 @@ fun HealthDetailItem(iconRes: Int, label: String, value: String, modifier: Modif
 }
 
 @Composable
-fun MoveGoalsCard() {
+fun MoveGoalsCard(onEditClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -292,7 +296,9 @@ fun MoveGoalsCard() {
                 // Edit Button
                 Box(
                     modifier = Modifier
-                        .background(Color(0xFF2D3C2C), shape = RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color(0xFF2D3C2C))
+                        .clickable { onEditClick() }
                         .padding(horizontal = 12.dp, vertical = 6.dp)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
