@@ -74,7 +74,7 @@ fun CaloriesDetailScreen(navController: NavController) {
                 Spacer(modifier = Modifier.weight(1f))
             }
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.weight(0.5f))
 
             // Hero Graphic (Original Nested Boxes)
             Column(
@@ -83,13 +83,13 @@ fun CaloriesDetailScreen(navController: NavController) {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(140.dp)
+                        .size(120.dp)
                         .background(LimeGreen.copy(alpha = 0.1f), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(110.dp)
+                            .size(90.dp)
                             .background(LimeGreen.copy(alpha = 0.2f), CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
@@ -97,7 +97,7 @@ fun CaloriesDetailScreen(navController: NavController) {
                             painter = painterResource(id = R.drawable.ic_fire),
                             contentDescription = null,
                             tint = LimeGreen,
-                            modifier = Modifier.size(48.dp)
+                            modifier = Modifier.size(36.dp)
                         )
                     }
                 }
@@ -107,7 +107,7 @@ fun CaloriesDetailScreen(navController: NavController) {
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(
                         text = "450",
-                        style = MaterialTheme.typography.displayMedium,
+                        style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.White
                     )
@@ -127,6 +127,8 @@ fun CaloriesDetailScreen(navController: NavController) {
                     color = TextGray
                 )
             }
+            
+            Spacer(modifier = Modifier.weight(0.5f))
         }
 
         // Bottom Section (Light Sheet)

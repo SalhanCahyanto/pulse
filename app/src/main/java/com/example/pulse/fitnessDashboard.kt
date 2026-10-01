@@ -25,6 +25,7 @@ import com.example.pulse.ui.theme.*
 
 @Composable
 fun FitnessDashboardScreen(navController: NavController) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             bottomBar = {
                 CustomBottomNavigation(
@@ -42,24 +43,29 @@ fun FitnessDashboardScreen(navController: NavController) {
                     }
                 )
             },
-        containerColor = LightBackground
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 24.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            HeaderSection()
-            Spacer(modifier = Modifier.height(32.dp))
-            CircularProgressSection(navController = navController)
-            Spacer(modifier = Modifier.height(24.dp))
-            MetricsSection(navController = navController)
-            Spacer(modifier = Modifier.height(24.dp))
-            CommunitySection()
-            Spacer(modifier = Modifier.height(32.dp))
+            containerColor = LightBackground
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(horizontal = 24.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Spacer(modifier = Modifier.height(32.dp))
+                HeaderSection()
+                Spacer(modifier = Modifier.height(32.dp))
+                CircularProgressSection(navController = navController)
+                Spacer(modifier = Modifier.height(24.dp))
+                MetricsSection(navController = navController)
+                Spacer(modifier = Modifier.height(24.dp))
+                CommunitySection(navController = navController)
+                Spacer(modifier = Modifier.height(32.dp))
+            }
+        }
+        
+        DraggableStreakButton(streak = 3) {
+            navController.navigate("streak_milestone")
         }
     }
 }
@@ -183,11 +189,13 @@ fun MetricsSection(navController: NavController) {
 }
 
 @Composable
-fun CommunitySection() {
+fun CommunitySection(navController: NavController) {
     Text(text = "Community", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = DarkCard)
     Spacer(modifier = Modifier.height(12.dp))
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { navController.navigate("community") },
         colors = CardDefaults.cardColors(containerColor = LimeGreen),
         shape = RoundedCornerShape(20.dp)
     ) {

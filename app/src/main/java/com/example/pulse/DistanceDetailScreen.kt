@@ -37,7 +37,7 @@ fun DistanceDetailScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f) // Takes the available space above the bottom sheet
-                .padding(horizontal = 24.dp, vertical = 48.dp),
+                .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Top Bar
@@ -74,28 +74,30 @@ fun DistanceDetailScreen(navController: NavController) {
                 Spacer(modifier = Modifier.weight(1f))
             }
             
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.weight(1f))
             
             // Hero Graphic
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.size(160.dp)
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .aspectRatio(1f)
             ) {
                 // Outer Arc
-                Canvas(modifier = Modifier.fillMaxSize()) {
+                Canvas(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                     drawArc(
                         color = Color.Gray.copy(alpha = 0.3f),
                         startAngle = 135f,
                         sweepAngle = 270f,
                         useCenter = false,
-                        style = Stroke(width = 16.dp.toPx(), cap = StrokeCap.Round)
+                        style = Stroke(width = 12.dp.toPx(), cap = StrokeCap.Round)
                     )
                     drawArc(
                         color = LimeGreen,
                         startAngle = 135f,
                         sweepAngle = 180f,
                         useCenter = false,
-                        style = Stroke(width = 16.dp.toPx(), cap = StrokeCap.Round)
+                        style = Stroke(width = 12.dp.toPx(), cap = StrokeCap.Round)
                     )
                 }
                 
@@ -122,16 +124,16 @@ fun DistanceDetailScreen(navController: NavController) {
                 }
             }
             
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.weight(1f))
             
             // Values
             Text(
                 text = "4.8 km",
-                style = MaterialTheme.typography.displayMedium,
+                style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "TOTAL DISTANCE",
                 style = MaterialTheme.typography.labelMedium,
@@ -183,7 +185,7 @@ fun DistanceDetailScreen(navController: NavController) {
                     }
                 }
                 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 
                 // Dynamic Title Row
                 Row(
@@ -204,14 +206,14 @@ fun DistanceDetailScreen(navController: NavController) {
                     )
                 }
                 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 
                 // Dynamic Scrollable Bar Chart
                 DynamicChartSection(selectedTab = selectedTab)
                 
-                Spacer(modifier = Modifier.height(32.dp))
-                HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
                 Spacer(modifier = Modifier.height(24.dp))
+                HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
+                Spacer(modifier = Modifier.height(20.dp))
                 
                 // Stats Footer
                 Row(
@@ -250,8 +252,6 @@ fun DistanceDetailScreen(navController: NavController) {
                         value = "2,3 Km"
                     )
                 }
-                
-                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

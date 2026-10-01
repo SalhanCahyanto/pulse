@@ -36,7 +36,7 @@ fun StepCountDetailScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(horizontal = 24.dp, vertical = 48.dp),
+                .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Top Bar
@@ -73,28 +73,30 @@ fun StepCountDetailScreen(navController: NavController) {
                 Spacer(modifier = Modifier.weight(1f))
             }
             
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.weight(1f))
             
             // Hero Graphic
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.size(200.dp)
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .aspectRatio(1f)
             ) {
                 // Outer Arc
-                Canvas(modifier = Modifier.fillMaxSize()) {
+                Canvas(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                     drawArc(
                         color = Color.Gray.copy(alpha = 0.3f),
                         startAngle = 135f,
                         sweepAngle = 270f,
                         useCenter = false,
-                        style = Stroke(width = 16.dp.toPx(), cap = StrokeCap.Round)
+                        style = Stroke(width = 12.dp.toPx(), cap = StrokeCap.Round)
                     )
                     drawArc(
                         color = LimeGreen,
                         startAngle = 135f,
                         sweepAngle = 200f, // Approx 7500 / 10000
                         useCenter = false,
-                        style = Stroke(width = 16.dp.toPx(), cap = StrokeCap.Round)
+                        style = Stroke(width = 12.dp.toPx(), cap = StrokeCap.Round)
                     )
                 }
                 
@@ -111,7 +113,7 @@ fun StepCountDetailScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "7,500",
-                        style = MaterialTheme.typography.displayMedium,
+                        style = MaterialTheme.typography.headlineLarge,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
@@ -123,7 +125,7 @@ fun StepCountDetailScreen(navController: NavController) {
                 }
             }
             
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.weight(1f))
             
             // Daily Goal
             Text(
@@ -184,7 +186,7 @@ fun StepCountDetailScreen(navController: NavController) {
                     }
                 }
                 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 
                 // Dynamic Title Row
                 Row(
@@ -205,14 +207,14 @@ fun StepCountDetailScreen(navController: NavController) {
                     )
                 }
                 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 
                 // Dynamic Scrollable Bar Chart
                 StepCountChartSection(selectedTab = selectedTab)
                 
-                Spacer(modifier = Modifier.height(32.dp))
-                HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
                 Spacer(modifier = Modifier.height(24.dp))
+                HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
+                Spacer(modifier = Modifier.height(20.dp))
                 
                 // Stats Footer
                 Row(
@@ -246,8 +248,6 @@ fun StepCountDetailScreen(navController: NavController) {
                         subtitle = "Burned today"
                     )
                 }
-                
-                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
