@@ -2,9 +2,12 @@ package com.example.pulse
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.navigation.NavController
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -25,14 +28,36 @@ val LightBackground = Color(0xFFFBFBFB)
 val TextGray = Color(0xFF8B8B8B)
 
 @Composable
-fun CommunityFeedScreen() {
+fun CommunityFeedScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(LightBackground)
+            .pointerInput(Unit) {
+                var isEdgeDrag = false
+                var accumulatedDrag = 0f
+                var hasPopped = false
+
+                detectDragGestures(
+                    onDragStart = { offset ->
+                        isEdgeDrag = offset.x < 100f
+                        accumulatedDrag = 0f
+                        hasPopped = false
+                    },
+                    onDrag = { _, dragAmount ->
+                        if (isEdgeDrag && !hasPopped && dragAmount.x > 0) {
+                            accumulatedDrag += dragAmount.x
+                            if (accumulatedDrag > 150f) {
+                                navController.popBackStack()
+                                hasPopped = true
+                            }
+                        }
+                    }
+                )
+            }
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(top = 32.dp, bottom = 120.dp, start = 16.dp, end = 16.dp),
+            contentPadding = PaddingValues(top = 32.dp, bottom = 80.dp, start = 16.dp, end = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item { TopHeader() }
@@ -69,26 +94,22 @@ fun CommunityFeedScreen() {
         }
 
         // Overlay Navigation & FAB
-        Column(
+        Box(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.End
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
         ) {
             FloatingActionButton(
-                onClick = { /* TODO */ },
+                onClick = { navController.navigate("route_screen") },
                 containerColor = LimeGreen,
                 contentColor = Color.Black,
-                shape = CircleShape,
-                modifier = Modifier.padding(bottom = 16.dp)
+                shape = CircleShape
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_plus),
                     contentDescription = "Add Post"
                 )
             }
-
-            BottomNavigationMenu()
         }
     }
 }
@@ -273,74 +294,10 @@ fun ActionChip(@DrawableRes iconRes: Int, text: String) {
     }
 }
 
-@Composable
-fun BottomNavigationMenu() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(LimeGreen, RoundedCornerShape(32.dp))
-            .padding(vertical = 8.dp, horizontal = 16.dp),
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        NavItem(iconRes = R.drawable.ic_book_open, label = "Insight", isSelected = false)
-
-        // Selected Home Item
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(top = 4.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .background(Color.White, CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_house),
-                    contentDescription = "Home",
-                    tint = Color.Black
-                )
-            }
-            Spacer(modifier = Modifier.height(4.dp))
-            Text("Home", fontSize = 11.sp, fontWeight = FontWeight.Medium, color = Color.Black)
-        }
-
-        NavItem(iconRes = R.drawable.ic_user, label = "Profile", isSelected = false)
-    }
-}
-
-@Composable
-fun NavItem(@DrawableRes iconRes: Int, label: String, isSelected: Boolean) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(top = 12.dp)
-    ) {
-        Icon(
-            painter = painterResource(id = iconRes),
-            contentDescription = label,
-            tint = if (isSelected) Color.Black else DarkSurface
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = label,
-            fontSize = 11.sp,
-            fontWeight = FontWeight.Medium,
-            color = if (isSelected) Color.Black else DarkSurface
-        )
-    }
-}
-
 data class MetricData(
     @param:DrawableRes val icon: Int,
     val value: String,
     val label: String
 )
 
-@Preview
-@Composable
-fun PreviewCommunityFeed() {
-    MaterialTheme {
-        CommunityFeedScreen()
-    }
-}
+// Preview removed

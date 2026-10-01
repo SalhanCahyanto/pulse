@@ -58,7 +58,7 @@ fun FitnessDashboardScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
             MetricsSection(navController = navController)
             Spacer(modifier = Modifier.height(24.dp))
-            CommunitySection()
+            CommunitySection(navController = navController)
             Spacer(modifier = Modifier.height(32.dp))
         }
     }
@@ -183,11 +183,13 @@ fun MetricsSection(navController: NavController) {
 }
 
 @Composable
-fun CommunitySection() {
+fun CommunitySection(navController: NavController) {
     Text(text = "Community", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = DarkCard)
     Spacer(modifier = Modifier.height(12.dp))
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { navController.navigate("community") },
         colors = CardDefaults.cardColors(containerColor = LimeGreen),
         shape = RoundedCornerShape(20.dp)
     ) {

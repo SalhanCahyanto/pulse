@@ -119,5 +119,11 @@ fun PulseAppNavigation() {
         composable("edit_profile") {
             EditProfileScreen(navController = navController)
         }
+        composable("community") {
+            CommunityFeedScreen(navController = navController)
+        }
+        composable("route_screen") {
+            GpsRouteScreen(navController = navController)
+        }
     }
 }
