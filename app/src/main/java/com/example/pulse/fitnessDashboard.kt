@@ -24,17 +24,36 @@ import com.example.pulse.ui.theme.*
 
 @Composable
 fun FitnessDashboardScreen(navController: NavController) {
-    Scaffold(
-        bottomBar = {
-            CustomBottomNavigation(
-                onNavigateInsight = {
-                    navController.navigate("insight") {
-                        popUpTo("home")
-                        launchSingleTop = true
+//    Scaffold(
+//        bottomBar = {
+//            CustomBottomNavigation(
+//                onNavigateInsight = {
+//                    navController.navigate("insight") {
+//                        popUpTo("home")
+//                        launchSingleTop = true
+//                    }
+//                }
+//            )
+//        },
+//        containerColor = LightBackground
+//    ) { paddingValues ->
+        Scaffold(
+            bottomBar = {
+                CustomBottomNavigation(
+                    onNavigateInsight = {
+                        navController.navigate("insight") {
+                            popUpTo("home") { inclusive = false }
+                            launchSingleTop = true
+                        }
+                    },
+                    onNavigateProfile = {
+                        navController.navigate("profile") {
+                            popUpTo("home") { inclusive = false }
+                            launchSingleTop = true
+                        }
                     }
-                }
-            )
-        },
+                )
+            },
         containerColor = LightBackground
     ) { paddingValues ->
         Column(
@@ -234,8 +253,55 @@ fun CommunitySection() {
     }
 }
 
+//sementara
+//@Composable
+//fun CustomBottomNavigation(onNavigateInsight: () -> Unit) {
+//    Card(
+//        modifier = Modifier.fillMaxWidth().padding(16.dp).height(70.dp),
+//        colors = CardDefaults.cardColors(containerColor = LimeGreen),
+//        shape = RoundedCornerShape(35.dp),
+//        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+//    ) {
+//        Row(
+//            modifier = Modifier.fillMaxSize(),
+//            horizontalArrangement = Arrangement.SpaceEvenly,
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Column(
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                modifier = Modifier.clickable { onNavigateInsight() }
+//            ) {
+//                Icon(painterResource(id = R.drawable.ic_book_open), contentDescription = "Insight", tint = DarkCard, modifier = Modifier.size(24.dp))
+//                Spacer(modifier = Modifier.height(4.dp))
+//                Text("Insight", color = DarkCard, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+//            }
+//
+//
+////            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+////                Icon(painterResource(id = R.drawable.ic_book_open), contentDescription = "Insight", tint = DarkCard, modifier = Modifier.size(24.dp))
+////                Spacer(modifier = Modifier.height(4.dp))
+////                Text("Insight", color = DarkCard, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+////            }
+//            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                Box(modifier = Modifier.background(Color.White, CircleShape).padding(12.dp)) {
+//                    Icon(painterResource(id = R.drawable.ic_house), contentDescription = "Home", tint = DarkCard, modifier = Modifier.size(24.dp))
+//                }
+//            }
+//            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                Icon(painterResource(id = R.drawable.ic_user), contentDescription = "Profile", tint = DarkCard, modifier = Modifier.size(24.dp))
+//                Spacer(modifier = Modifier.height(4.dp))
+//                Text("Profile", color = DarkCard, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+//            }
+//        }
+//    }
+//}
+
+// fitnessDashboard.kt
 @Composable
-fun CustomBottomNavigation(onNavigateInsight: () -> Unit) {
+fun CustomBottomNavigation(
+    onNavigateInsight: () -> Unit,
+    onNavigateProfile: () -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(16.dp).height(70.dp),
         colors = CardDefaults.cardColors(containerColor = LimeGreen),
@@ -255,18 +321,15 @@ fun CustomBottomNavigation(onNavigateInsight: () -> Unit) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Text("Insight", color = DarkCard, fontSize = 12.sp, fontWeight = FontWeight.Medium)
             }
-
-//            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//                Icon(painterResource(id = R.drawable.ic_book_open), contentDescription = "Insight", tint = DarkCard, modifier = Modifier.size(24.dp))
-//                Spacer(modifier = Modifier.height(4.dp))
-//                Text("Insight", color = DarkCard, fontSize = 12.sp, fontWeight = FontWeight.Medium)
-//            }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(modifier = Modifier.background(Color.White, CircleShape).padding(12.dp)) {
                     Icon(painterResource(id = R.drawable.ic_house), contentDescription = "Home", tint = DarkCard, modifier = Modifier.size(24.dp))
                 }
             }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.clickable { onNavigateProfile() }
+            ) {
                 Icon(painterResource(id = R.drawable.ic_user), contentDescription = "Profile", tint = DarkCard, modifier = Modifier.size(24.dp))
                 Spacer(modifier = Modifier.height(4.dp))
                 Text("Profile", color = DarkCard, fontSize = 12.sp, fontWeight = FontWeight.Medium)
