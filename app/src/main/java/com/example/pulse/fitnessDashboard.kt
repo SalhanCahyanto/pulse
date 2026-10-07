@@ -88,12 +88,12 @@ fun HeaderSection() {
             Text(text = "Tuesday, 15 September", color = TextGray, fontSize = 14.sp)
             Text(text = "Keep moving, Naip", fontWeight = FontWeight.Bold, fontSize = 24.sp, color = DarkCard)
         }
-        Icon(
-            painter = painterResource(id = R.drawable.ic_moon),
-            contentDescription = "Dark Mode",
-            modifier = Modifier.size(24.dp),
-            tint = DarkCard
-        )
+//        Icon(
+//            painter = painterResource(id = R.drawable.ic_moon),
+//            contentDescription = "Dark Mode",
+//            modifier = Modifier.size(24.dp),
+//            tint = DarkCard
+//        )
     }
 }
 

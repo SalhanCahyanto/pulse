@@ -146,8 +146,8 @@ fun GpsRouteScreen(navController: NavController) {
                     offsetY = if (offsetY > 100f) 0f else maxOffset
                 },
                 onShareClick = {
-                    // Fungsi navigasi: Kembali saat share diklik
-                    navController.popBackStack()
+                    // Fungsi navigasi: Membuka layar share route baru
+                    navController.navigate("share_route")
                 }
             )
         }

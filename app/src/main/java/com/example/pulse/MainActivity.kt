@@ -101,5 +101,13 @@ fun PulseAppNavigation() {
         composable("streak_milestone") {
             StreakMilestoneScreen(navController = navController)
         }
+        // Rute ke Halaman Share Route Baru
+        composable("share_route") {
+            ShareRouteScreen(navController = navController)
+        }
+        // Rute ke Halaman Detail Postingan Komunitas
+        composable("post_detail") {
+            PostDetailScreen(navController = navController)
+        }
     }
 }

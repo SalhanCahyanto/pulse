@@ -2,6 +2,7 @@ package com.example.pulse
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -73,7 +74,8 @@ fun CommunityFeedScreen(navController: NavController) {
                         MetricData(R.drawable.ic_zap, "540 kcal", "CALORIES")
                     ),
                     likes = "24",
-                    comments = "8"
+                    comments = "8",
+                    onClick = { navController.navigate("post_detail") }
                 )
             }
 
@@ -88,7 +90,8 @@ fun CommunityFeedScreen(navController: NavController) {
                         MetricData(R.drawable.ic_zap, "180 kcal", "CALORIES")
                     ),
                     likes = "24",
-                    comments = "8"
+                    comments = "8",
+                    onClick = { navController.navigate("post_detail") }
                 )
             }
         }
@@ -175,10 +178,13 @@ fun PostCard(
     content: String,
     metrics: List<MetricData>,
     likes: String,
-    comments: String
+    comments: String,
+    onClick: () -> Unit = {}
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = LimeGreen)
     ) {
